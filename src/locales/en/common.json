@@ -1,0 +1,26 @@
+{
+  "loading": "Loading...",
+  "error": "Error: {{error}}",
+  "patterns": {
+    "title": "Patterns",
+    "description": "... powered by Ravelry",
+    "search": "Search patterns...",
+    "next": "More patterns",
+    "card": {
+      "free": "Free",
+      "paid": "Paid",
+      "designer": "Designer"
+    },
+    "detail": {
+      "download": "Download pattern",
+      "price": "Price",
+      "currency": "Currency",
+      "craft": "Craft",
+      "author": "Author"
+    }
+  },
+  "yarns": {
+    "title": "Yarns",
+    "search": "Search yarns..."
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "loading": "Načítání...",
+  "error": "Chyba: {{error}}",
+  "patterns": {
+    "title": "Vzory",
+    "description": "Vzory powered by Ravelry",
+    "search": "Vyhledat vzory...",
+    "next": "Další",
+    "card": {
+      "free": "Zdarma",
+      "paid": "Placené",
+      "designer": "Designer"
+    }
+  },
+  "yarns": {
+    "title": "Příze",
+    "search": "Vyhledat příze..."
+  }
+}
