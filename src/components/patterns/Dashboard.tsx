@@ -43,9 +43,13 @@ export const Patterns = () => {
   );
 
   useEffect(() => {
-    setAllPatterns([]);
-    setPage(1);
     setLastPaginator(null);
+    if (page !== 1) {
+      setPage(1);
+    }
+    // Note: Do not clear allPatterns here. It will update after data fetch.
+    // This avoids unnecessary double renders.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
 
   useEffect(() => {
