@@ -10,6 +10,13 @@
       "free": "Zdarma",
       "paid": "Placené",
       "designer": "Designer"
+    },
+    "detail": {
+      "download": "Stáhnout vzor",
+      "price": "Cena",
+      "currency": "Měna",
+      "craft": "Řemeslo",
+      "author": "Autor"
     }
   },
   "yarns": {

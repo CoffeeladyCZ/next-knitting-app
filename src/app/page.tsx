@@ -1,7 +1,8 @@
-import { Patterns } from "../components/patterns/Dashboard";
+import { DEFAULT_LOCALE } from "../i18n/config"
+import { redirect } from "../i18n/navigation"
+import { ROUTES } from "../lib/routes"
 
-export default function Home() {
-  return (
-   <Patterns />
-  );
+// This page only renders when the app is built statically (output: 'export')
+export default function RootPage() {
+  redirect({ href: ROUTES.home, locale: DEFAULT_LOCALE })
 }

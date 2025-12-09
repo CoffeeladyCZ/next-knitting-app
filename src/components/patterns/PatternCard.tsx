@@ -2,7 +2,7 @@
 
 import { Card } from "../component-library/Card";
 import type { Pattern } from "../../api/types";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { Icon } from "../component-library/Icon";
 import { DollarSign } from "lucide-react";
 
@@ -13,7 +13,7 @@ export const PatternCard = ({
   pattern: Pattern;
   onClick: () => void;
 }) => {
-  const { t } = useTranslation();
+  const t = useTranslations();
   return (
     <div className="relative">
       {!pattern.free && (

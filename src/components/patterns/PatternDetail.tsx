@@ -1,17 +1,18 @@
 "use client";
 
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import { useGetPatternDetail } from "../../api/hooks";
 import parse from "html-react-parser";
 import { Icon } from "../component-library/Icon";
 import { SnowflakeIcon } from "lucide-react";
+import Image from "next/image";
 
 type Props = {
   id: string;
 }
 
 export const PatternDetail = ({ id }: Props) => {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const { data, isLoading, isError, error } = useGetPatternDetail(Number(id));
 
@@ -29,11 +30,15 @@ export const PatternDetail = ({ id }: Props) => {
       <div className="flex gap-6">
         <div className="text-left">
           <div className="w-80 h-96 border-orange border-3 p-2 mb-2 overflow-hidden">
-            <img
-              src={data?.pattern?.photos?.[0]?.medium_url}
-              alt={data?.pattern.name}
-              className="w-full h-full object-cover"
-            />
+            {data?.pattern?.photos?.[0]?.medium_url && (
+              <Image
+                src={data.pattern.photos[0].medium_url}
+                alt={data?.pattern.name ?? ""}
+                className="w-full h-full object-cover"
+                width={320}
+                height={384}
+              />
+            )}
           </div>
           <p className="text-left">{`${t("patterns.detail.author")}: ${data?.pattern.pattern_author?.name}`}</p>
           {data?.pattern.price && (
@@ -50,9 +55,9 @@ export const PatternDetail = ({ id }: Props) => {
           </a>
           <Icon as={SnowflakeIcon} className="text-primary mt-5 size-15" />
         </div>
-        <p className="text-md text-left">
+        <div className="text-md text-left">
           {parse(data?.pattern.notes_html as string)}
-        </p>
+        </div>
       </div>
     </>
   );

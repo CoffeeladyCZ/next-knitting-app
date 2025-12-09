@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getPatternDetail } from "../../../../../lib/ravelry-client";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const id = parseInt(params.id, 10);
     

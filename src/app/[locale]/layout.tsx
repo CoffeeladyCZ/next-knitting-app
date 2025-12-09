@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "../../i18n/routing";
 import { Providers } from "../../components/Providers";
 import { Analytics } from "./Analytics";
-import "../styles/global.css";
+import "../../styles/global.css";
 
 type Props = {
   children: React.ReactNode
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
   description: "Browse and discover knitting patterns",
 };
 
-export async function LocaleLayout({
+export default async function LocaleLayout({
   children, params
 }: Props) {
   const { locale } = await params
@@ -25,11 +26,13 @@ export async function LocaleLayout({
     notFound();
   }
 
+  const messages = await getMessages();
+
   return (
     <html lang={locale} suppressHydrationWarning>
       <body>
         <Analytics />
-          <NextIntlClientProvider locale={locale}>
+          <NextIntlClientProvider messages={messages} locale={locale}>
             <Providers>
               {children}
             </Providers>

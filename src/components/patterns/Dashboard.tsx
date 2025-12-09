@@ -19,9 +19,9 @@ import {
   type SearchSchema,
 } from "../../schema/patternSchema";
 import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 import type { Pattern } from "../../api/types";
-import { useRouter } from "next/navigation";
+import { useRouter } from "../../i18n/navigation";
 
 export const Patterns = () => {
   const [searchQuery, setSearchQuery] = useState<string | undefined>(undefined);
@@ -32,7 +32,7 @@ export const Patterns = () => {
     last_page: number;
   } | null>(null);
 
-  const { t } = useTranslation();
+  const t = useTranslations();
   const router = useRouter();
 
   const pageSize = 10;
@@ -126,7 +126,7 @@ export const Patterns = () => {
           />
           {error && (
             <div className="text-destructive">
-              {t("patterns.error", { error: error })}
+              {t("error", { error: error?.message })}
             </div>
           )}
         </form>
