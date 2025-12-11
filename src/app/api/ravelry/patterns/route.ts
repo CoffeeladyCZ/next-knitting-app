@@ -14,10 +14,7 @@ export async function GET(request: NextRequest) {
     console.error("Error fetching patterns:", error);
     return NextResponse.json(
       { error: "Failed to fetch patterns" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
-
-
-

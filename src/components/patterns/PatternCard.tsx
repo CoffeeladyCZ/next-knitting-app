@@ -5,6 +5,7 @@ import type { Pattern } from "../../api/types";
 import { useTranslations } from "next-intl";
 import { Icon } from "../component-library/Icon";
 import { DollarSign } from "lucide-react";
+import Image from "next/image";
 
 export const PatternCard = ({
   pattern,
@@ -27,9 +28,12 @@ export const PatternCard = ({
         <Card.Header>
           <Card.Content className="flex flex-col gap-1 w-48">
             <div className="w-48 h-48 border-orange border-3 p-2 overflow-hidden mb-2">
-              <img
-                src={pattern.first_photo?.small_url}
-                alt={pattern.name}
+              <Image
+                src={pattern.first_photo?.small_url as string}
+                alt={pattern.name as string}
+                width={192}
+                height={192}
+                loading="eager"
                 className="w-full h-full object-cover"
               />
             </div>

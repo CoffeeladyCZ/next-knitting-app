@@ -7,7 +7,7 @@ import type {
 
 async function fetchFromApi<T>(
   endpoint: string,
-  queryParams?: Record<string, string>
+  queryParams?: Record<string, string>,
 ): Promise<T> {
   let url = endpoint;
 
@@ -27,7 +27,7 @@ async function fetchFromApi<T>(
     if (!response.ok) {
       const errorBody = await response.text();
       throw new Error(
-        `HTTP error! Status: ${response.status}. Message: ${errorBody.substring(0, 100)}...`
+        `HTTP error! Status: ${response.status}. Message: ${errorBody.substring(0, 100)}...`,
       );
     }
 
@@ -68,4 +68,3 @@ export const getPatternDetail = async (
 ): Promise<PatternDetailResponse> => {
   return fetchFromApi<PatternDetailResponse>(`/api/ravelry/patterns/${id}`);
 };
-

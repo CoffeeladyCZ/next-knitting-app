@@ -54,6 +54,7 @@ body {
   --color-accent-500: var(--yellow-001);
   --color-accent-100: var(--yellow-000);
   --color-orange: var(--orange);
+  --color-orange-dark: var(--orange-001);
   --color-text: var(--text);
   --color-surface: var(--surface);
 

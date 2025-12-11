@@ -268,4 +268,3 @@ export type PatternDetail = {
 export type PatternDetailResponse = {
   pattern: PatternDetail;
 };
-

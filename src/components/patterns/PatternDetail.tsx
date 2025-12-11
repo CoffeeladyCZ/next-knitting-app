@@ -9,7 +9,7 @@ import Image from "next/image";
 
 type Props = {
   id: string;
-}
+};
 
 export const PatternDetail = ({ id }: Props) => {
   const t = useTranslations();
@@ -27,9 +27,9 @@ export const PatternDetail = ({ id }: Props) => {
   return (
     <>
       <h1 className="text-3xl mb-4 text-primary">{data?.pattern.name}</h1>
-      <div className="flex gap-6">
-        <div className="text-left">
-          <div className="w-80 h-96 border-orange border-3 p-2 mb-2 overflow-hidden">
+      <div className="flex flex-wrap gap-6">
+        <div className="text-left w-full lg:w-80 lg:shrink-0">
+          <div className="max-w-80 w-full h-auto lg:h-96 border-orange border-3 p-2 mb-2 overflow-hidden">
             {data?.pattern?.photos?.[0]?.medium_url && (
               <Image
                 src={data.pattern.photos[0].medium_url}
@@ -44,18 +44,21 @@ export const PatternDetail = ({ id }: Props) => {
           {data?.pattern.price && (
             <p className="text-left">{`${t("patterns.detail.price")}: ${data?.pattern.price} ${data?.pattern.currency}`}</p>
           )}
-          <p className="text-left pb-2">{`${t("patterns.detail.craft")}: ${data?.pattern?.craft?.name}`}</p>
+          <p className="text-left pb-2">
+            {t("patterns.detail.craft")}:
+            <span className="text-orange-dark pl-1">{data?.pattern?.craft?.name}</span>
+          </p>
           <a
             href={data?.pattern.download_location?.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-md text-primary hover:underline"
+            className="text-md text-primary underline"
           >
             {t("patterns.detail.download")}
           </a>
           <Icon as={SnowflakeIcon} className="text-primary mt-5 size-15" />
         </div>
-        <div className="text-md text-left">
+        <div className="text-md text-left flex-1 min-w-60">
           {parse(data?.pattern.notes_html as string)}
         </div>
       </div>

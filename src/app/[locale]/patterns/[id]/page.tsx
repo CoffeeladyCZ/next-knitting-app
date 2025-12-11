@@ -9,10 +9,9 @@ export default async function PatternDetailPage({
   params: Promise<{ locale: Locale; id: string }>;
 }) {
   const { locale, id } = await params;
-  
+
   // Enable static rendering
   setRequestLocale(locale);
-  
+
   return <PatternDetail id={id} />;
 }
-

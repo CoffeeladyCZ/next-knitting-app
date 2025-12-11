@@ -13,4 +13,3 @@ export const QUERY_KEYS = {
   PATTERNS: "patterns",
   PATTERNS_DETAIL: "patterns_detail",
 };
-

@@ -1,19 +1,16 @@
-import { use } from "react"
-import type { Locale } from "next-intl"
-import { setRequestLocale } from "next-intl/server"
-import { Patterns } from "../../components/patterns/Dashboard"
-
+import { use } from "react";
+import type { Locale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
+import { Patterns } from "../../components/patterns/Dashboard";
 
 type Props = {
-  params: Promise<{ locale: Locale }>
-}
+  params: Promise<{ locale: Locale }>;
+};
 
 export default function Page({ params }: Props) {
-  const { locale } = use(params)
+  const { locale } = use(params);
 
-  setRequestLocale(locale)
+  setRequestLocale(locale);
 
-  return (
-    <Patterns />
-  )
+  return <Patterns />;
 }

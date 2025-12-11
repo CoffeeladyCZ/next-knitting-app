@@ -4,7 +4,10 @@ import { z } from "zod";
 export const env = createEnv({
   server: {
     // Environment
-    ENV_NAME: z.enum(["local", "staging", "production"]).optional().default("local"),
+    ENV_NAME: z
+      .enum(["local", "staging", "production"])
+      .optional()
+      .default("local"),
 
     // Ravelry API (Server-side only - never exposed to client)
     RAVELRY_URL: z.string().url(),

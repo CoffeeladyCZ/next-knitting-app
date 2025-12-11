@@ -35,4 +35,3 @@ export const useGetPatternDetail = (id: number) =>
     queryFn: () => getPatternDetail(id),
     queryKey: [QUERY_KEYS.PATTERNS_DETAIL, id],
   });
-

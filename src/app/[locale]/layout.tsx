@@ -8,19 +8,17 @@ import { Analytics } from "./Analytics";
 import "../../styles/global.css";
 
 type Props = {
-  children: React.ReactNode
-  params: Promise<{ locale: string }>
-}
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+};
 
 export const metadata: Metadata = {
   title: "Knitting Patterns",
   description: "Browse and discover knitting patterns",
 };
 
-export default async function LocaleLayout({
-  children, params
-}: Props) {
-  const { locale } = await params
+export default async function LocaleLayout({ children, params }: Props) {
+  const { locale } = await params;
 
   if (!hasLocale(routing.locales, locale)) {
     notFound();
@@ -32,13 +30,10 @@ export default async function LocaleLayout({
     <html lang={locale} suppressHydrationWarning>
       <body>
         <Analytics />
-          <NextIntlClientProvider messages={messages} locale={locale}>
-            <Providers>
-              {children}
-            </Providers>
-          </NextIntlClientProvider>
+        <NextIntlClientProvider messages={messages} locale={locale}>
+          <Providers>{children}</Providers>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
 }
-
