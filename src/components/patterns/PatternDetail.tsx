@@ -6,6 +6,7 @@ import parse from "html-react-parser";
 import { Icon } from "../component-library/Icon";
 import { SnowflakeIcon } from "lucide-react";
 import Image from "next/image";
+import CommentsCard from "./CommentsCard";
 
 type Props = {
   id: string;
@@ -46,7 +47,9 @@ export const PatternDetail = ({ id }: Props) => {
           )}
           <p className="text-left pb-2">
             {t("patterns.detail.craft")}:
-            <span className="text-orange-dark pl-1">{data?.pattern?.craft?.name}</span>
+            <span className="text-orange-dark pl-1">
+              {data?.pattern?.craft?.name}
+            </span>
           </p>
           <a
             href={data?.pattern.download_location?.url}
@@ -62,6 +65,7 @@ export const PatternDetail = ({ id }: Props) => {
           {parse(data?.pattern.notes_html as string)}
         </div>
       </div>
+      <CommentsCard id={Number(id)} />
     </>
   );
 };

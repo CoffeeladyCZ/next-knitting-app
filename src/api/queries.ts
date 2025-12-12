@@ -3,6 +3,7 @@ import type {
   PatternResponse,
   YarnResponse,
   PatternDetailResponse,
+  PatternCommentsResponse,
 } from "./types";
 
 async function fetchFromApi<T>(
@@ -67,4 +68,12 @@ export const getPatternDetail = async (
   id: number,
 ): Promise<PatternDetailResponse> => {
   return fetchFromApi<PatternDetailResponse>(`/api/ravelry/patterns/${id}`);
+};
+
+export const getPatternComments = async (
+  id: number,
+): Promise<PatternCommentsResponse> => {
+  return fetchFromApi<PatternCommentsResponse>(
+    `/api/ravelry/patterns/${id}/comments`,
+  );
 };

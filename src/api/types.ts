@@ -65,12 +65,13 @@ export type Yarn = {
 export type YarnResponse = Yarn[];
 
 export type User = {
-  id?: number;
-  username?: string;
-  tiny_photo_url?: string;
-  small_photo_url?: string;
-  photo_url?: string;
-  profile_country_code?: string;
+  id: number;
+  username: string;
+  tiny_photo_url: string;
+  small_photo_url: string;
+  photo_url: string;
+  large_photo_url: string;
+  profile_country_code: string;
 };
 
 export type Designer = {
@@ -267,4 +268,57 @@ export type PatternDetail = {
 
 export type PatternDetailResponse = {
   pattern: PatternDetail;
+};
+
+export type Project = {
+  id: number;
+  name: string;
+  permalink: string;
+  comments_count: number;
+  completed?: string | null;
+  completed_day_set: boolean;
+  craft_id?: number | null;
+  craft_name?: string | null;
+  created_at: string;
+  ends_per_inch?: number | null;
+  favorites_count: number;
+  first_photo?: Photo | null;
+  gauge_divisor?: number | null;
+  gauge?: number | null;
+  gauge_pattern?: string | null;
+  gauge_repeats?: number | null;
+  links: Record<string, unknown>;
+  made_for?: string | null;
+  made_for_user_id?: number | null;
+  pattern_id?: number | null;
+  pattern_name?: string | null;
+  photos_count: number;
+  picks_per_inch?: number | null;
+  progress?: number | null;
+  project_status_changed?: string | null;
+  project_status_id?: number | null;
+  rating?: number | null;
+  row_gauge?: number | null;
+  size?: string | null;
+  started?: string | null;
+  started_day_set: boolean;
+  status_name?: string | null;
+  tag_names?: string[] | null;
+  updated_at: string;
+  user: User;
+  user_id: number;
+};
+
+export type Comment = {
+  id: number;
+  created_at: string;
+  highlighted_project: Project;
+  user: User;
+  comment_html: string;
+  replies?: Comment[];
+};
+
+export type PatternCommentsResponse = {
+  comments: Comment[];
+  paginator: Paginator;
 };
