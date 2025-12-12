@@ -4,6 +4,7 @@ export const API_ROUTES = {
   YARNS: "yarns/search.json?query=cascade",
   PATTERNS: "patterns/search.json",
   PATTERNS_DETAIL: "patterns",
+  PATTERNS_COMMENTS: "patterns",
 };
 
 export const QUERY_KEYS = {
@@ -12,4 +13,5 @@ export const QUERY_KEYS = {
   YARNS: "yarns",
   PATTERNS: "patterns",
   PATTERNS_DETAIL: "patterns_detail",
+  PATTERNS_COMMENTS: "patterns_comments",
 };

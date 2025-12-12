@@ -5,6 +5,7 @@ import {
   getPatternCategories,
   getYarns,
   getPatternDetail,
+  getPatternComments,
 } from "./queries";
 
 export const useGetPatterns = (
@@ -34,4 +35,10 @@ export const useGetPatternDetail = (id: number) =>
   useQuery({
     queryFn: () => getPatternDetail(id),
     queryKey: [QUERY_KEYS.PATTERNS_DETAIL, id],
+  });
+
+export const useGetPatternComments = (id: number) =>
+  useQuery({
+    queryFn: () => getPatternComments(id),
+    queryKey: [QUERY_KEYS.PATTERNS_COMMENTS, id],
   });

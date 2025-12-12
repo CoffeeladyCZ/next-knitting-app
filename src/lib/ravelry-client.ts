@@ -5,6 +5,7 @@ import type {
   PatternResponse,
   YarnResponse,
   PatternDetailResponse,
+  PatternCommentsResponse,
 } from "../api/types";
 
 interface RavelryClientOptions {
@@ -72,6 +73,14 @@ export async function getPatternDetail(
 ): Promise<PatternDetailResponse> {
   return fetchRavelry<PatternDetailResponse>(
     `${API_ROUTES.PATTERNS_DETAIL}/${id}.json`,
+  );
+}
+
+export async function getPatternComments(
+  id: number,
+): Promise<PatternCommentsResponse> {
+  return fetchRavelry<PatternCommentsResponse>(
+    `${API_ROUTES.PATTERNS_COMMENTS}/${id}/comments.json`,
   );
 }
 
