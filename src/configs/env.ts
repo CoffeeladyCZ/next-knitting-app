@@ -3,47 +3,39 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {
-    // Environment
     ENV_NAME: z
       .enum(["local", "staging", "production"])
       .optional()
       .default("local"),
 
-    // Ravelry API (Server-side only - never exposed to client)
-    RAVELRY_URL: z.string().url(),
-    RAVELRY_USERNAME: z.string().min(1),
-    RAVELRY_KEY: z.string().min(1),
+    APP_BASE_URL: z.string(),
 
-    // OAuth2 Configuration (Server-side only)
-    // OAUTH_CLIENT_ID: z.string().min(1).optional(),
-    // OAUTH_CLIENT_SECRET: z.string().min(1).optional(),
-    // OAUTH_REDIRECT_URI: z.url().optional(),
-    // OAUTH_AUTHORIZATION_URL: z.url().optional(),
-    // OAUTH_TOKEN_URL: z.url().optional(),
+    RAVELRY_URL: z.string(),
+    RAVELRY_CLIENT_ID: z.string(),
+    RAVELRY_CLIENT_SECRET: z.string(),
+    RAVELRY_AUTHORIZATION_URL: z.string(),
+    RAVELRY_TOKEN_URL: z.string(),
+
+    BETTER_AUTH_SECRET: z.string(),
   },
   client: {
-    // Analytics
     NEXT_PUBLIC_GA4_MEASUREMENT_ID: z.string().optional(),
-
-    // Sentry
     NEXT_PUBLIC_SENTRY_DSN: z.string().url().optional(),
   },
   runtimeEnv: {
-    // Server
     ENV_NAME: process.env.ENV_NAME,
-    RAVELRY_URL: process.env.RAVELRY_URL,
-    RAVELRY_USERNAME: process.env.RAVELRY_USERNAME,
-    RAVELRY_KEY: process.env.RAVELRY_KEY,
-    // OAUTH_CLIENT_ID: process.env.OAUTH_CLIENT_ID,
-    // OAUTH_CLIENT_SECRET: process.env.OAUTH_CLIENT_SECRET,
-    // OAUTH_REDIRECT_URI: process.env.OAUTH_REDIRECT_URI,
-    // OAUTH_AUTHORIZATION_URL: process.env.OAUTH_AUTHORIZATION_URL,
-    // OAUTH_TOKEN_URL: process.env.OAUTH_TOKEN_URL,
+    APP_BASE_URL: process.env.APP_BASE_URL,
 
-    // Client
+    RAVELRY_URL: process.env.RAVELRY_URL,
+    RAVELRY_CLIENT_ID: process.env.RAVELRY_CLIENT_ID,
+    RAVELRY_CLIENT_SECRET: process.env.RAVELRY_CLIENT_SECRET,
+    RAVELRY_AUTHORIZATION_URL: process.env.RAVELRY_AUTHORIZATION_URL,
+    RAVELRY_TOKEN_URL: process.env.RAVELRY_TOKEN_URL,
+
+    BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
+
     NEXT_PUBLIC_GA4_MEASUREMENT_ID: process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID,
     NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
   },
-  // Skip validation in test environment
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
 });

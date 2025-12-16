@@ -1,9 +1,9 @@
 "use client";
 
-import { Card } from "../component-library/Card";
-import type { Pattern } from "../../api/types";
+import { Card } from "@/components/component-library/Card";
+import type { Pattern } from "@/api/types";
 import { useTranslations } from "next-intl";
-import { Icon } from "../component-library/Icon";
+import { Icon } from "@/components/component-library/Icon";
 import { DollarSign } from "lucide-react";
 import Image from "next/image";
 

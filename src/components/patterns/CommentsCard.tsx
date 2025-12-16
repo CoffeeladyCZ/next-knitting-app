@@ -1,5 +1,5 @@
-import { Comment } from "../component-library/Comment";
-import { useGetPatternComments } from "../../api/hooks";
+import { Comment } from "@/components/component-library/Comment";
+import { useGetPatternComments } from "@/api/hooks";
 
 type Props = {
   id: number;

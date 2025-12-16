@@ -1,5 +1,5 @@
 import { cva } from "class-variance-authority";
-import { cn } from "../../lib/utils";
+import { cn } from "@/lib/utils";
 
 type BadgeVariantKey = keyof typeof BadgeVariants.variant;
 type BadgeSizeKey = keyof typeof BadgeVariants.size;

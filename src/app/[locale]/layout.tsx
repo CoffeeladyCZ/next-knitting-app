@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { routing } from "../../i18n/routing";
-import { Providers } from "../../components/Providers";
-import { Analytics } from "./Analytics";
-import "../../styles/global.css";
+import { routing } from "@/i18n/routing";
+import { Providers } from "@/components/Providers";
+import { Analytics } from "@/app/[locale]/Analytics";
+import "@/styles/global.css";
 
 type Props = {
   children: React.ReactNode;

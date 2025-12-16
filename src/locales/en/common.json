@@ -22,5 +22,22 @@
   "yarns": {
     "title": "Yarns",
     "search": "Search yarns..."
+  },
+  "Login": {
+    "errorMessages": {
+      "emailInvalid": "Email is invalid",
+      "password_min_length": "Password must be at least 8 characters long",
+      "general_error": "An error occurred, please try again",
+      "generalError": "An error occurred, please try again",
+      "passwordMinLengthMessage": "Password must be at least 8 characters long"
+    },
+    "labels": {
+      "username": "Username",
+      "password": "Password"
+    },
+    "buttons": {
+      "signIn": "Sign In",
+      "signOut": "Sign Out"
+    }
   }
 }

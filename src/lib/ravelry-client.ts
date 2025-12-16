@@ -1,23 +1,28 @@
-import { env } from "../configs/env";
-import { API_ROUTES } from "../api/constants";
+import { env } from "@/configs/env";
+import { API_ROUTES } from "@/api/constants";
 import type {
   PatternCategoriesResponse,
   PatternResponse,
   YarnResponse,
   PatternDetailResponse,
   PatternCommentsResponse,
-} from "../api/types";
+} from "@/api/types";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth/auth";
 
 interface RavelryClientOptions {
   query?: string;
   page?: number;
   pageSize?: number;
 }
+const getAccessToken = async (): Promise<string | null> => {
+  const tokens = await auth.api.getAccessToken({
+    body: { providerId: "ravelry" },
+    headers: await headers(),
+  });
+  if (!tokens) return null;
 
-const getCredentials = () => {
-  const username = env.RAVELRY_USERNAME;
-  const apiKey = env.RAVELRY_KEY;
-  return Buffer.from(`${username}:${apiKey}`).toString("base64");
+  return tokens.accessToken;
 };
 
 const baseUrl = env.RAVELRY_URL;
@@ -26,6 +31,12 @@ async function fetchRavelry<T>(
   endpoint: string,
   queryParams?: Record<string, string>,
 ): Promise<T> {
+  const token = await getAccessToken();
+
+  if (!token) {
+    throw new Error("Uživatel není přihlášen k Ravelry.");
+  }
+
   let url = `${baseUrl}/${endpoint}`;
 
   if (queryParams) {
@@ -33,11 +44,9 @@ async function fetchRavelry<T>(
     url += `?${params.toString()}`;
   }
 
-  const credentials = getCredentials();
-
   const response = await fetch(url, {
     headers: {
-      Authorization: `Basic ${credentials}`,
+      Authorization: `Bearer ${token}`,
       Accept: "application/json",
     },
   });

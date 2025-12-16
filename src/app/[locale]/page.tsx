@@ -1,16 +1,18 @@
-import { use } from "react";
 import type { Locale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
-import { Patterns } from "../../components/patterns/Dashboard";
+import { Patterns } from "@/components/patterns/Dashboard";
+import { SignIn } from "@/components/SignIn";
+import { getSession } from "@/lib/auth/session";
 
 type Props = {
   params: Promise<{ locale: Locale }>;
 };
 
-export default function Page({ params }: Props) {
-  const { locale } = use(params);
+export default async function Page({ params }: Props) {
+  const { locale } = await params;
+  const { session } = await getSession();
 
   setRequestLocale(locale);
 
-  return <Patterns />;
+  return <>{session ? <Patterns /> : <SignIn />}</>;
 }

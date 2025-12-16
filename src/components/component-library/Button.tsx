@@ -1,6 +1,6 @@
 import { Slot } from "@radix-ui/react-slot";
 import { cva } from "class-variance-authority";
-import { cn } from "../../lib/utils";
+import { cn } from "@/lib/utils";
 
 type ButtonVariantKey = keyof typeof ButtonVariants.variant;
 type ButtonSizeKey = keyof typeof ButtonVariants.size;
@@ -24,7 +24,7 @@ const ButtonVariants = {
 
 const buttonVariants = cva(
   [
-    "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-[color,box-shadow] outline-none",
+    "inline-flex shrink-0 items-center justify-center gap-2 text-sm font-medium whitespace-nowrap transition-[color,box-shadow] outline-none",
     "disabled:pointer-events-none disabled:opacity-50",
     "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
     "focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50",

@@ -22,5 +22,21 @@
   "yarns": {
     "title": "Příze",
     "search": "Vyhledat příze..."
+  },
+  "Login": {
+    "errorMessages": {
+      "emailInvalid": "Email je neplatný",
+      "password_min_length": "Heslo musí mít alespoň 8 znaků",
+      "general_error": "Nastala chyba, zkuste to znovu",
+      "passwordMinLengthMessage": "Heslo musí mít alespoň 8 znaků"
+    },
+    "labels": {
+      "username": "Uživatelské jméno",
+      "password": "Heslo"
+    },
+    "buttons": {
+      "signIn": "Přihlásit se",
+      "signOut": "Odhlásit se"
+    }
   }
 }

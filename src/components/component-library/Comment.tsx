@@ -1,7 +1,7 @@
 import { AvatarRoot, AvatarFallback, AvatarImage } from "./Avatar";
 import parse from "html-react-parser";
 import { formatDistance, subDays } from "date-fns";
-import { cn } from "../../lib/utils";
+import { cn } from "@/lib/utils";
 
 type Props = {
   user: string;
