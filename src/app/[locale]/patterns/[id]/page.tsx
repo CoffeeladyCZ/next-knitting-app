@@ -1,6 +1,5 @@
-import React from "react";
-import { PatternDetail } from "../../../../components/patterns/PatternDetail";
-import type { Locale } from "../../../../i18n/config";
+import { PatternDetail } from "@/components/patterns/PatternDetail";
+import type { Locale } from "@/i18n/config";
 import { setRequestLocale } from "next-intl/server";
 
 export default async function PatternDetailPage({
@@ -10,7 +9,6 @@ export default async function PatternDetailPage({
 }) {
   const { locale, id } = await params;
 
-  // Enable static rendering
   setRequestLocale(locale);
 
   return <PatternDetail id={id} />;

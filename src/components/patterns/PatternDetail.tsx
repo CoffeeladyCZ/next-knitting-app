@@ -1,12 +1,12 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useGetPatternDetail } from "../../api/hooks";
+import { useGetPatternDetail } from "@/api/hooks";
 import parse from "html-react-parser";
-import { Icon } from "../component-library/Icon";
+import { Icon } from "@/components/component-library/Icon";
 import { SnowflakeIcon } from "lucide-react";
 import Image from "next/image";
-import CommentsCard from "./CommentsCard";
+import CommentsCard from "@/components/patterns/CommentsCard";
 
 type Props = {
   id: string;

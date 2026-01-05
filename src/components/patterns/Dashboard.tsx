@@ -1,27 +1,25 @@
 "use client";
 
 import { Search } from "lucide-react";
-import { useGetPatterns } from "../../api/hooks";
-import { PatternCard } from "./PatternCard";
-import { TextField } from "../component-library/TextField";
+import { useGetPatterns } from "@/api/hooks";
+import { PatternCard } from "@/components/patterns/PatternCard";
+import { TextField } from "@/components/component-library/TextField";
 import {
   Form,
   FormControl,
   FormItem,
   FormMessage,
   FormField,
-} from "../component-library/Form";
-import { Button } from "../component-library/Button";
+} from "@/components/component-library/Form";
+import { Button } from "@/components/component-library/Button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  searchFormSchema,
-  type SearchSchema,
-} from "../../schema/patternSchema";
+import { searchFormSchema, type SearchSchema } from "@/schema/patternSchema";
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import type { Pattern } from "../../api/types";
-import { useRouter } from "../../i18n/navigation";
+import type { Pattern } from "@/api/types";
+import { useRouter } from "@/i18n/navigation";
+import { SignOut } from "@/components/SignOut";
 
 export const Patterns = () => {
   const [searchQuery, setSearchQuery] = useState<string | undefined>(undefined);
@@ -47,8 +45,6 @@ export const Patterns = () => {
     if (page !== 1) {
       setPage(1);
     }
-    // Note: Do not clear allPatterns here. It will update after data fetch.
-    // This avoids unnecessary double renders.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
 
@@ -99,11 +95,12 @@ export const Patterns = () => {
 
   return (
     <div className="flex flex-col p-4">
-      <div className="flex items-center gap-2 mb-10 px-4">
+      <div className="flex items-center justify-start gap-2 mb-10 px-4">
         <h1 className="text-3xl text-start">{t("patterns.title")}</h1>
         <p className="text-sm text-gray-500 font-borel">
           {t("patterns.description")}
         </p>
+        <SignOut className="ml-auto" />
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 px-4">

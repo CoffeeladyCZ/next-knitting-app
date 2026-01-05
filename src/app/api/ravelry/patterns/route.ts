@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getPatterns } from "../../../../lib/ravelry-client";
+import { getPatterns } from "@/lib/ravelry-client";
 
 export async function GET(request: NextRequest) {
   try {

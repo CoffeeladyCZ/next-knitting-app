@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import ReactGA from "react-ga4";
-import { env } from "../../configs/env";
+import { env } from "@/configs/env";
 
 export function Analytics() {
   useEffect(() => {
