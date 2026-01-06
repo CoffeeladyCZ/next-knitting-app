@@ -37,6 +37,11 @@
     "buttons": {
       "signIn": "Přihlásit se",
       "signOut": "Odhlásit se"
+    },
+    "menu": {
+      "profile": "Profil",
+      "settings": "Nastavení",
+      "ariaLabel": "Uživatelské menu"
     }
   }
 }
