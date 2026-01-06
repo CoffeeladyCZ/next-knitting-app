@@ -38,6 +38,11 @@
     "buttons": {
       "signIn": "Sign In",
       "signOut": "Sign Out"
+    },
+    "menu": {
+      "profile": "Profile",
+      "settings": "Settings",
+      "ariaLabel": "User menu"
     }
   }
 }
