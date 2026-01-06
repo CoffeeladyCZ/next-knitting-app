@@ -148,7 +148,7 @@ describe("Patterns Dashboard", () => {
     } as ReturnType<typeof hooks.useGetPatterns>);
 
     renderWithProviders(<Patterns />);
-    
+
     await waitFor(() => {
       expect(screen.getByText("Patterns")).toBeTruthy();
     });
@@ -166,11 +166,9 @@ describe("Patterns Dashboard", () => {
     } as ReturnType<typeof hooks.useGetPatterns>);
 
     renderWithProviders(<Patterns />);
-    
+
     await waitFor(() => {
-      expect(
-        screen.getByPlaceholderText("Search patterns..."),
-      ).toBeTruthy();
+      expect(screen.getByPlaceholderText("Search patterns...")).toBeTruthy();
     });
   });
 
@@ -184,11 +182,11 @@ describe("Patterns Dashboard", () => {
     } as ReturnType<typeof hooks.useGetPatterns>);
 
     renderWithProviders(<Patterns />);
-    
+
     await waitFor(() => {
       expect(screen.getByPlaceholderText("Search patterns...")).toBeTruthy();
     });
-    
+
     const searchInput = screen.getByPlaceholderText("Search patterns...");
 
     await user.type(searchInput, "sweater");
@@ -209,11 +207,11 @@ describe("Patterns Dashboard", () => {
     } as ReturnType<typeof hooks.useGetPatterns>);
 
     renderWithProviders(<Patterns />);
-    
+
     await waitFor(() => {
       expect(screen.getByPlaceholderText("Search patterns...")).toBeTruthy();
     });
-    
+
     const searchInput = screen.getByPlaceholderText(
       "Search patterns...",
     ) as HTMLInputElement;
@@ -238,11 +236,11 @@ describe("Patterns Dashboard", () => {
     } as ReturnType<typeof hooks.useGetPatterns>);
 
     renderWithProviders(<Patterns />);
-    
+
     await waitFor(() => {
       expect(screen.getByPlaceholderText("Search patterns...")).toBeTruthy();
     });
-    
+
     const searchInput = screen.getByPlaceholderText("Search patterns...");
 
     await user.type(searchInput, "   ");
@@ -262,7 +260,7 @@ describe("Patterns Dashboard", () => {
     } as ReturnType<typeof hooks.useGetPatterns>);
 
     renderWithProviders(<Patterns />);
-    
+
     await waitFor(() => {
       expect(screen.getByText("... powered by Ravelry")).toBeTruthy();
     });

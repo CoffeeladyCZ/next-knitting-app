@@ -41,7 +41,9 @@ export const SignOut = ({ className }: Props) => {
             <DropdownMenu.Item>{t("menu.profile")}</DropdownMenu.Item>
             <DropdownMenu.Item>{t("menu.settings")}</DropdownMenu.Item>
             <DropdownMenu.Separator />
-            <DropdownMenu.Item onClick={onSubmit}>{t("buttons.signOut")}</DropdownMenu.Item>
+            <DropdownMenu.Item onClick={onSubmit}>
+              {t("buttons.signOut")}
+            </DropdownMenu.Item>
           </DropdownMenu.Content>
         </DropdownMenu>
       </div>
