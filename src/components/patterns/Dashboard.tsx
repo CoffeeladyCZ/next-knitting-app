@@ -19,7 +19,8 @@ import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import type { Pattern } from "@/api/types";
 import { useRouter } from "@/i18n/navigation";
-import { SignOut } from "@/components/SignOut";
+import { PageHeader } from "@/components/PageHeader";
+import { setUsernameInStorage } from "@/hooks/useUsername";
 
 export const Patterns = () => {
   const [searchQuery, setSearchQuery] = useState<string | undefined>(undefined);
@@ -32,6 +33,26 @@ export const Patterns = () => {
 
   const t = useTranslations();
   const router = useRouter();
+
+  useEffect(() => {
+    const getBaseUrl = () => {
+      if (typeof window !== "undefined") {
+        return window.location.origin;
+      }
+      return "";
+    };
+
+    fetch(`${getBaseUrl()}/api/user`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.username) {
+          setUsernameInStorage(data.username);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching username for storage:", error);
+      });
+  }, []);
 
   const pageSize = 10;
   const { data, isLoading, isError, error } = useGetPatterns(
@@ -95,13 +116,7 @@ export const Patterns = () => {
 
   return (
     <div className="flex flex-col p-4">
-      <div className="flex items-center justify-start gap-2 mb-10 px-4">
-        <h1 className="text-3xl text-start">{t("patterns.title")}</h1>
-        <p className="text-sm text-gray-500 font-borel">
-          {t("patterns.description")}
-        </p>
-        <SignOut className="ml-auto" />
-      </div>
+      <PageHeader />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 px-4">
           <FormField

@@ -2,10 +2,11 @@
 
 import { useTranslations } from "next-intl";
 import { useAuth } from "@/hooks/useAuth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePreventLayoutShift } from "@/hooks/usePreventLayoutShift";
 import { DropdownMenu } from "@/components/component-library/DropdownMenu";
 import { UserIcon } from "lucide-react";
+import { clearUsernameFromStorage } from "@/hooks/useUsername";
 
 type Props = {
   className?: string;
@@ -14,16 +15,38 @@ type Props = {
 export const SignOut = ({ className }: Props) => {
   const [error, setError] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const t = useTranslations("Login");
   const { signOutRavelry } = useAuth();
   usePreventLayoutShift(open);
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const onSubmit = async () => {
+    clearUsernameFromStorage();
     await signOutRavelry();
     setError(null);
     setOpen(false);
   };
+
+  if (!mounted) {
+    return (
+      <div className={className}>
+        <div className="flex items-center gap-2">
+          <button
+            className="inline-flex size-[35px] items-center justify-center rounded-full bg-white outline-none hover:bg-primary/10 focus:shadow-[0_0_0_2px] focus:shadow-black"
+            aria-label={t("menu.ariaLabel")}
+            disabled
+          >
+            <UserIcon />
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={className}>

@@ -5,6 +5,7 @@ export const API_ROUTES = {
   PATTERNS: "patterns/search.json",
   PATTERNS_DETAIL: "patterns",
   PATTERNS_COMMENTS: "patterns",
+  PROJECTS_LIST: "projects/{username}/list.json",
 };
 
 export const QUERY_KEYS = {
@@ -14,4 +15,5 @@ export const QUERY_KEYS = {
   PATTERNS: "patterns",
   PATTERNS_DETAIL: "patterns_detail",
   PATTERNS_COMMENTS: "patterns_comments",
+  PROJECTS_LIST: "projects_list",
 };

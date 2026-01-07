@@ -1,9 +1,12 @@
 {
   "loading": "Loading...",
   "error": "Error: {{error}}",
+  "header": {
+    "title": "Ravelry",
+    "description": "... powered by Ravelry"
+  },
   "patterns": {
     "title": "Patterns",
-    "description": "... powered by Ravelry",
     "search": "Search patterns...",
     "next": "More patterns",
     "card": {
@@ -44,5 +47,17 @@
       "settings": "Settings",
       "ariaLabel": "User menu"
     }
+  },
+  "navigation": {
+    "mySpace": "My Space",
+    "projects": "Projects"
+  },
+  "projects": {
+    "title": "My Projects",
+    "noProjects": "No projects found"
+  },
+  "errorMessages": {
+    "unauthorized": "Unauthorized",
+    "unauthorizedMessage": "User is not logged in to Ravelry."
   }
 }

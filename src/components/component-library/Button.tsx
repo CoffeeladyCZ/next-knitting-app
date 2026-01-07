@@ -11,7 +11,7 @@ const ButtonVariants = {
     destructive: "bg-red-500 text-white",
     outline: "bg-transparent text-primary border border-primary",
     secondary: "bg-secondary text-white",
-    ghost: "bg-transparent text-primary hover:bg-primary-100",
+    ghost: "bg-transparent text-primary hover:bg-primary/10",
     link: "bg-transparent text-primary hover:bg-primary-100",
   },
   size: {
@@ -24,7 +24,7 @@ const ButtonVariants = {
 
 const buttonVariants = cva(
   [
-    "inline-flex shrink-0 items-center justify-center gap-2 text-sm font-medium whitespace-nowrap transition-[color,box-shadow] outline-none",
+    "inline-flex shrink-0 items-center justify-center gap-2 text-sm font-medium whitespace-nowrap transition-[color,box-shadow,background-color] outline-none",
     "disabled:pointer-events-none disabled:opacity-50",
     "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
     "focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50",

@@ -322,3 +322,16 @@ export type PatternCommentsResponse = {
   comments: Comment[];
   paginator: Paginator;
 };
+
+export type ProjectResponse = {
+  collection?: Collection;
+  projects: Project[];
+  paginator: Paginator;
+};
+
+export type Collection = {
+  id: number;
+  permalink: string;
+  tag_names: string[];
+  title: string;
+};

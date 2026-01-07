@@ -4,6 +4,7 @@ import type {
   YarnResponse,
   PatternDetailResponse,
   PatternCommentsResponse,
+  ProjectResponse,
 } from "./types";
 
 async function fetchFromApi<T>(
@@ -17,8 +18,19 @@ async function fetchFromApi<T>(
     url += `?${params.toString()}`;
   }
 
+  const getBaseUrl = () => {
+    if (typeof window !== "undefined") {
+      return window.location.origin;
+    }
+    return process.env.APP_BASE_URL || "http://localhost:3000";
+  };
+
+  const absoluteUrl = url.startsWith("http")
+    ? url
+    : `${getBaseUrl()}${url}`;
+
   try {
-    const response = await fetch(url, {
+    const response = await fetch(absoluteUrl, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -75,5 +87,13 @@ export const getPatternComments = async (
 ): Promise<PatternCommentsResponse> => {
   return fetchFromApi<PatternCommentsResponse>(
     `/api/ravelry/patterns/${id}/comments`,
+  );
+};
+
+export const getProjects = async (
+  username: string,
+): Promise<ProjectResponse> => {
+  return fetchFromApi<ProjectResponse>(
+    `/api/ravelry/projects/${username}`,
   );
 };

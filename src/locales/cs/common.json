@@ -1,9 +1,12 @@
 {
   "loading": "Načítání...",
   "error": "Chyba: {{error}}",
+  "header": {
+    "title": "Ravelry",
+    "description": "... běží na Ravelry"
+  },
   "patterns": {
     "title": "Vzory",
-    "description": "Vzory powered by Ravelry",
     "search": "Vyhledat vzory...",
     "next": "Další",
     "card": {
@@ -43,5 +46,17 @@
       "settings": "Nastavení",
       "ariaLabel": "Uživatelské menu"
     }
+  },
+  "navigation": {
+    "mySpace": "Můj prostor",
+    "projects": "Projekty"
+  },
+  "projects": {
+    "title": "Moje projekty",
+    "noProjects": "Žádné projekty nebyly nalezeny"
+  },
+  "errorMessages": {
+    "unauthorized": "Neautorizováno",
+    "unauthorizedMessage": "Uživatel není přihlášen k Ravelry."
   }
 }

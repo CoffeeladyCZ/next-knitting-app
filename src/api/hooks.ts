@@ -6,6 +6,7 @@ import {
   getYarns,
   getPatternDetail,
   getPatternComments,
+  getProjects,
 } from "./queries";
 
 export const useGetPatterns = (
@@ -41,4 +42,11 @@ export const useGetPatternComments = (id: number) =>
   useQuery({
     queryFn: () => getPatternComments(id),
     queryKey: [QUERY_KEYS.PATTERNS_COMMENTS, id],
+  });
+
+export const useGetProjects = (username: string) =>
+  useQuery({
+    queryFn: () => getProjects(username),
+    queryKey: [QUERY_KEYS.PROJECTS_LIST, username],
+    enabled: !!username,
   });
