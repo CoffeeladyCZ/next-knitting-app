@@ -6,6 +6,7 @@ import type {
   YarnResponse,
   PatternDetailResponse,
   PatternCommentsResponse,
+  ProjectResponse,
 } from "@/api/types";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth/auth";
@@ -16,13 +17,18 @@ interface RavelryClientOptions {
   pageSize?: number;
 }
 const getAccessToken = async (): Promise<string | null> => {
-  const tokens = await auth.api.getAccessToken({
-    body: { providerId: "ravelry" },
-    headers: await headers(),
-  });
-  if (!tokens) return null;
+  try {
+    const tokens = await auth.api.getAccessToken({
+      body: { providerId: "ravelry" },
+      headers: await headers(),
+    });
+    if (!tokens) return null;
 
-  return tokens.accessToken;
+    return tokens.accessToken;
+  } catch (error) {
+    console.error("Failed to get access token:", error);
+    return null;
+  }
 };
 
 const baseUrl = env.RAVELRY_URL;
@@ -34,10 +40,16 @@ async function fetchRavelry<T>(
   const token = await getAccessToken();
 
   if (!token) {
-    throw new Error("Uživatel není přihlášen k Ravelry.");
+    const error = new Error("Uživatel není přihlášen k Ravelry.") as Error & {
+      statusCode?: number;
+    };
+    error.statusCode = 401;
+    throw error;
   }
 
-  let url = `${baseUrl}/${endpoint}`;
+  const cleanBaseUrl = baseUrl.replace(/\/$/, "");
+  const cleanEndpoint = endpoint.replace(/^\//, "");
+  let url = `${cleanBaseUrl}/${cleanEndpoint}`;
 
   if (queryParams) {
     const params = new URLSearchParams(queryParams);
@@ -53,9 +65,11 @@ async function fetchRavelry<T>(
 
   if (!response.ok) {
     const errorBody = await response.text();
-    throw new Error(
+    const error = new Error(
       `Ravelry API error: ${response.status}. ${errorBody.substring(0, 100)}`,
-    );
+    ) as Error & { statusCode?: number };
+    error.statusCode = response.status;
+    throw error;
   }
 
   return response.json() as Promise<T>;
@@ -101,4 +115,9 @@ export async function getPatternCategories(): Promise<PatternCategoriesResponse>
 
 export async function getYarns(): Promise<YarnResponse> {
   return fetchRavelry<YarnResponse>(API_ROUTES.YARNS);
+}
+
+export async function getProjects(username: string): Promise<ProjectResponse> {
+  const endpoint = API_ROUTES.PROJECTS_LIST.replace("{username}", username);
+  return fetchRavelry<ProjectResponse>(endpoint);
 }
