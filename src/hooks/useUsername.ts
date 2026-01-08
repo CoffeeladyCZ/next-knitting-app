@@ -55,4 +55,3 @@ export const clearUsernameFromStorage = () => {
     localStorage.removeItem(USERNAME_STORAGE_KEY);
   }
 };
-

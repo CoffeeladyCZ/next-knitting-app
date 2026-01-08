@@ -40,7 +40,7 @@ export const SubNavigation = ({ items, activeHref }: Props) => {
               asChild
               className={cn(
                 "rounded-none",
-                isActive && "border-b-2 border-primary"
+                isActive && "border-b-2 border-primary",
               )}
             >
               <Link href={item.href}>{item.label}</Link>
@@ -51,4 +51,3 @@ export const SubNavigation = ({ items, activeHref }: Props) => {
     </div>
   );
 };
-

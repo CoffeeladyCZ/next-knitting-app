@@ -25,9 +25,7 @@ async function fetchFromApi<T>(
     return process.env.APP_BASE_URL || "http://localhost:3000";
   };
 
-  const absoluteUrl = url.startsWith("http")
-    ? url
-    : `${getBaseUrl()}${url}`;
+  const absoluteUrl = url.startsWith("http") ? url : `${getBaseUrl()}${url}`;
 
   try {
     const response = await fetch(absoluteUrl, {
@@ -93,7 +91,5 @@ export const getPatternComments = async (
 export const getProjects = async (
   username: string,
 ): Promise<ProjectResponse> => {
-  return fetchFromApi<ProjectResponse>(
-    `/api/ravelry/projects/${username}`,
-  );
+  return fetchFromApi<ProjectResponse>(`/api/ravelry/projects/${username}`);
 };

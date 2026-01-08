@@ -117,9 +117,7 @@ export async function getYarns(): Promise<YarnResponse> {
   return fetchRavelry<YarnResponse>(API_ROUTES.YARNS);
 }
 
-export async function getProjects(
-  username: string,
-): Promise<ProjectResponse> {
+export async function getProjects(username: string): Promise<ProjectResponse> {
   const endpoint = API_ROUTES.PROJECTS_LIST.replace("{username}", username);
   return fetchRavelry<ProjectResponse>(endpoint);
 }

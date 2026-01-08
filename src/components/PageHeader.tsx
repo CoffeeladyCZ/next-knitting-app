@@ -11,7 +11,11 @@ type PageHeaderProps = {
   children?: React.ReactNode;
 };
 
-export const PageHeader = ({ title, description, children }: PageHeaderProps) => {
+export const PageHeader = ({
+  title,
+  description,
+  children,
+}: PageHeaderProps) => {
   const t = useTranslations();
 
   const defaultTitle = t("header.title");
@@ -29,7 +33,9 @@ export const PageHeader = ({ title, description, children }: PageHeaderProps) =>
           </h1>
         </Link>
         {displayDescription && (
-          <p className="text-sm text-gray-500 font-borel">{displayDescription}</p>
+          <p className="text-sm text-gray-500 font-borel">
+            {displayDescription}
+          </p>
         )}
       </div>
       {children}
@@ -42,4 +48,3 @@ export const PageHeader = ({ title, description, children }: PageHeaderProps) =>
     </div>
   );
 };
-

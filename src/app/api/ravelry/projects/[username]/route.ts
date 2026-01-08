@@ -20,7 +20,7 @@ export async function GET(
     return NextResponse.json(data);
   } catch (error) {
     console.error("Error fetching projects:", error);
-    
+
     if (error && typeof error === "object" && "statusCode" in error) {
       const apiError = error as { statusCode: number; status?: string };
       return NextResponse.json(
@@ -28,18 +28,14 @@ export async function GET(
         { status: apiError.statusCode || 401 },
       );
     }
-    
+
     if (error instanceof Error && error.message.includes("401")) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 },
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    
+
     return NextResponse.json(
       { error: "Failed to fetch projects" },
       { status: 500 },
     );
   }
 }
-
