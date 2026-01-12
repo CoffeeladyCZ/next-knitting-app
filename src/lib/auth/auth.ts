@@ -1,8 +1,8 @@
 import { betterAuth, type OAuth2Tokens } from "better-auth";
 import type { OAuth2UserInfo } from "@better-auth/core/oauth2";
 import { genericOAuth, username } from "better-auth/plugins";
-import { Buffer } from "buffer";
-import { ROUTES } from "@/lib/routes";
+import { cookies } from "next/headers";
+import { getRavelryAccessToken, getRavelryUserInfo } from "../helpers";
 
 export const auth = betterAuth({
   baseURL: process.env.APP_BASE_URL as string,
@@ -28,38 +28,14 @@ export const auth = betterAuth({
           tokenUrl: process.env.RAVELRY_TOKEN_URL as string,
           redirectURI: process.env.RAVELRY_REDIRECT_URI as string,
           getToken: async ({ code, redirectURI }) => {
-            const clientId = process.env.RAVELRY_CLIENT_ID as string;
-            const clientSecret = process.env.RAVELRY_CLIENT_SECRET as string;
+            const data = await getRavelryAccessToken(code, redirectURI);
 
-            const clientCredentials = Buffer.from(
-              `${clientId}:${clientSecret}`,
-            ).toString("base64");
-
-            const response = await fetch(
-              process.env.RAVELRY_TOKEN_URL as string,
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/x-www-form-urlencoded",
-                  Authorization: `Basic ${clientCredentials}`,
-                },
-                body: new URLSearchParams({
-                  grant_type: "authorization_code",
-                  code: code,
-                  redirect_uri: redirectURI,
-                }),
-              },
-            );
-
-            if (!response.ok) {
-              const errorBody = await response.text();
-              console.error("Ravelry Token Exchange Error:", errorBody);
-              throw new Error(
-                `Failed to exchange token with Ravelry: ${response.status} - ${errorBody}`,
-              );
-            }
-
-            const data = await response.json();
+            (await cookies()).set("rvr_token", data.refresh_token, {
+              httpOnly: true,
+              secure: true,
+              sameSite: "lax",
+              maxAge: 60 * 60 * 24 * 30,
+            });
 
             return {
               accessToken: data.access_token,
@@ -74,22 +50,17 @@ export const auth = betterAuth({
           getUserInfo: async (
             tokens: OAuth2Tokens,
           ): Promise<OAuth2UserInfo | null> => {
-            const userResponse = await fetch(
-              `${process.env.RAVELRY_URL}${ROUTES.currentUser}`,
-              {
-                headers: {
-                  Authorization: `Bearer ${tokens.accessToken}`,
-                },
-              },
-            );
-
-            if (!userResponse.ok) {
-              const errorBody = await userResponse.text();
-              console.error("Failed to fetch Ravelry user info:", errorBody);
+            const accessToken = tokens.accessToken;
+            if (!accessToken) {
               return null;
             }
 
-            const profile = await userResponse.json();
+            const profile = await getRavelryUserInfo(accessToken);
+
+            if (!profile) {
+              return null;
+            }
+
             const user = profile.user;
             const username = user.username || "";
 

@@ -14,8 +14,6 @@ export const MySpaceContent = () => {
   ];
 
   return (
-    <>
-      <SubNavigation items={navigationItems} activeHref="/my-space/projects" />
-    </>
+    <SubNavigation items={navigationItems} activeHref="/my-space/projects" />
   );
 };
