@@ -188,4 +188,3 @@ html[data-radix-scroll-lock] {
 .animate-slideRightAndFade {
   animation: slideRightAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-

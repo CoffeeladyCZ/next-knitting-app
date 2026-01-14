@@ -12,7 +12,10 @@ function CardRoot({
   variant = "content",
   hoverClass,
   ...props
-}: React.ComponentProps<"div"> & { variant?: CardVariant; hoverClass?: string }) {
+}: React.ComponentProps<"div"> & {
+  variant?: CardVariant;
+  hoverClass?: string;
+}) {
   return (
     <div
       data-slot="card"
