@@ -103,9 +103,6 @@ html[data-radix-scroll-lock] {
     }
   }
 
-  --animate-heart-pulse: heartbeat 2s ease-in-out infinite;
-  --animate-card-hover: card-hover 0.3s ease-in-out;
-
   @keyframes heartbeat {
     0% {
       transform: scale(1);
@@ -118,24 +115,6 @@ html[data-radix-scroll-lock] {
     }
     100% {
       transform: scale(1);
-    }
-  }
-
-  @keyframes card-hover {
-    0% {
-      background-color: transparent;
-    }
-    100% {
-      background-color: rgba(255, 187, 171, 0.7);
-    }
-  }
-
-  @keyframes card-leave {
-    0% {
-      background-color: rgba(255, 187, 171, 0.7);
-    }
-    100% {
-      background-color: transparent;
     }
   }
 
@@ -208,16 +187,4 @@ html[data-radix-scroll-lock] {
 
 .animate-slideRightAndFade {
   animation: slideRightAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-[data-slot="card"] {
-  background-color: transparent;
-}
-
-[data-slot="card"]:hover {
-  animation: card-hover 0.3s ease-in-out forwards;
-}
-
-[data-slot="card"]:not(:hover) {
-  animation: card-leave 0.3s ease-in-out forwards;
 }
