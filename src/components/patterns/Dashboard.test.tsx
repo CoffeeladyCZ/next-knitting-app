@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { type ReactElement } from "react";
+import { type ReactElement, type ReactNode } from "react";
 import { Patterns } from "./Dashboard";
 import * as hooks from "@/api/hooks";
 import type { PatternResponse } from "@/api/types";
@@ -19,6 +19,9 @@ vi.mock("next-intl", async () => {
     useTranslations: () => (key: string, values?: Record<string, string>) => {
       if (key === "loading") return "Loading...";
       if (key === "error") return `Error: ${values?.error || ""}`;
+      if (key === "header.title") return "Patterns";
+      if (key === "header.description") return "... powered by Ravelry";
+      if (key === "navigation.mySpace") return "My Space";
       if (key === "patterns.title") return "Patterns";
       if (key === "patterns.description") return "... powered by Ravelry";
       if (key === "patterns.search") return "Search patterns...";
@@ -48,6 +51,9 @@ vi.mock("@/i18n/navigation", () => ({
     replace: vi.fn(),
     prefetch: vi.fn(),
   }),
+  Link: ({ href, children }: { href: string; children: ReactNode }) => (
+    <a href={href}>{children}</a>
+  ),
 }));
 vi.mock("@/components/SignOut", () => ({
   SignOut: () => <div data-testid="sign-out">Sign Out</div>,
@@ -112,6 +118,12 @@ const renderWithProviders = (component: ReactElement) => {
 describe("Patterns Dashboard", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        json: async () => ({ username: "" }),
+      }) as unknown as typeof fetch,
+    );
   });
 
   it("renders loading state", () => {

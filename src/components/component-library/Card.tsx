@@ -10,13 +10,15 @@ const cardVariantClasses: Record<CardVariant, string> = {
 function CardRoot({
   className,
   variant = "content",
+  hoverClass,
   ...props
-}: React.ComponentProps<"div"> & { variant?: CardVariant }) {
+}: React.ComponentProps<"div"> & { variant?: CardVariant; hoverClass?: string }) {
   return (
     <div
       data-slot="card"
       className={cn(
-        "flex flex-col items-center p-4 cursor-pointer",
+        "flex flex-col items-center p-4 cursor-pointer transition-colors duration-300",
+        hoverClass ?? "hover:bg-[rgba(255,187,171,0.7)]",
         cardVariantClasses[variant],
         className,
       )}
