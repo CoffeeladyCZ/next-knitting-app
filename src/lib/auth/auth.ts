@@ -30,6 +30,12 @@ export const auth = betterAuth({
           getToken: async ({ code, redirectURI }) => {
             const data = await getRavelryAccessToken(code, redirectURI);
 
+            (await cookies()).set("rvr_access_token", data.access_token, {
+              httpOnly: true,
+              secure: true,
+              maxAge: data.expires_in,
+            });
+
             (await cookies()).set("rvr_token", data.refresh_token, {
               httpOnly: true,
               secure: true,

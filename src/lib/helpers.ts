@@ -1,67 +1,85 @@
-import { env } from "@/configs/env";
-import { cookies, headers } from "next/headers";
-import { auth } from "./auth/auth";
+import { cookies } from "next/headers";
 import { ROUTES } from "@/lib/routes";
+import * as sentry from "@sentry/nextjs";
 
 const refreshAccessToken = async (
   refreshToken: string,
 ): Promise<string | null> => {
+  const clientId = process.env.RAVELRY_CLIENT_ID;
+  const clientSecret = process.env.RAVELRY_CLIENT_SECRET;
+  const tokenUrl = process.env.RAVELRY_TOKEN_URL;
+  const redirectUri = process.env.RAVELRY_REDIRECT_URI;
+
+  if (!clientId || !clientSecret || !tokenUrl || !redirectUri) {
+    sentry.captureException(new Error("Missing environment variables"));
+    return null;
+  }
+
+  const authString = `${clientId.trim()}:${clientSecret.trim()}`;
+  const clientCredentials = Buffer.from(authString).toString("base64");
+
   try {
-    const response = await fetch(env.RAVELRY_TOKEN_URL, {
+    const body = `grant_type=refresh_token&refresh_token=${refreshToken}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+    const response = await fetch(tokenUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({
-        grant_type: "refresh_token",
-        refresh_token: refreshToken,
-      }),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Basic ${clientCredentials}`,
+        Accept: "application/json",
+      },
+      body: body,
     });
 
     if (!response.ok) {
+      console.error("8 Error refreshing token status:", response.status);
+      sentry.captureException(
+        new Error(`Error refreshing token status: ${response.status}`),
+      );
       return null;
     }
 
     const data = await response.json();
+
+    if (data.access_token) {
+      const cookieStore = await cookies();
+
+      cookieStore.set("rvr_access_token", data.access_token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax",
+        maxAge: data.expires_in,
+      });
+
+      if (data.refresh_token) {
+        cookieStore.set("rvr_token", data.refresh_token, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "lax",
+          maxAge: 30 * 24 * 60 * 60,
+        });
+      }
+    }
     return data.access_token ?? null;
-  } catch {
+  } catch (error) {
+    console.error("7 Fetch error:", error);
     return null;
   }
 };
 
 export const getValidRavelryToken = async (): Promise<string | null> => {
-  try {
-    const tokenData = await auth.api.getAccessToken({
-      body: { providerId: "ravelry" },
-      headers: await headers(),
-    });
+  const cookieStore = await cookies();
 
-    if (!tokenData?.accessToken) {
-      return null;
-    }
+  const accessToken = cookieStore.get("rvr_access_token")?.value;
 
-    if (tokenData.accessTokenExpiresAt) {
-      const expiresAt = new Date(tokenData.accessTokenExpiresAt);
-      const now = new Date();
-
-      if (expiresAt > now) {
-        return tokenData.accessToken;
-      }
-
-      const cookieStore = await cookies();
-      const refreshToken = cookieStore.get("rvr_token")?.value;
-
-      if (!refreshToken) {
-        return null;
-      }
-
-      const newAccessToken = await refreshAccessToken(refreshToken);
-      return newAccessToken;
-    }
-
-    return tokenData.accessToken;
-  } catch (error) {
-    console.error("Failed to get access token:", error);
-    return null;
+  if (accessToken) {
+    return accessToken;
   }
+
+  const refreshToken = cookieStore.get("rvr_token")?.value;
+  if (refreshToken) {
+    return await refreshAccessToken(refreshToken);
+  }
+  return null;
 };
 
 export const getRavelryAccessToken = async (
@@ -103,7 +121,7 @@ export const getRavelryUserInfo = async (
 ): Promise<{ user: { username?: string; photo_url?: string } } | null> => {
   try {
     const userResponse = await fetch(
-      `${env.RAVELRY_URL}${ROUTES.currentUser}`,
+      `${process.env.RAVELRY_URL}${ROUTES.currentUser}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -114,12 +132,18 @@ export const getRavelryUserInfo = async (
     if (!userResponse.ok) {
       const errorBody = await userResponse.text();
       console.error("Failed to fetch Ravelry user info:", errorBody);
+      sentry.captureException(
+        new Error(`Failed to fetch Ravelry user info: ${errorBody}`),
+      );
       return null;
     }
 
     return userResponse.json();
   } catch (error) {
     console.error("Error fetching Ravelry user info:", error);
+    sentry.captureException(
+      new Error(`Error fetching Ravelry user info: ${error}`),
+    );
     return null;
   }
 };
