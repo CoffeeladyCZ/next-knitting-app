@@ -15,6 +15,7 @@ export const env = createEnv({
     RAVELRY_CLIENT_SECRET: z.string(),
     RAVELRY_AUTHORIZATION_URL: z.string(),
     RAVELRY_TOKEN_URL: z.string(),
+    RAVELRY_REDIRECT_URI: z.string(),
 
     BETTER_AUTH_SECRET: z.string(),
   },
@@ -31,6 +32,7 @@ export const env = createEnv({
     RAVELRY_CLIENT_SECRET: process.env.RAVELRY_CLIENT_SECRET,
     RAVELRY_AUTHORIZATION_URL: process.env.RAVELRY_AUTHORIZATION_URL,
     RAVELRY_TOKEN_URL: process.env.RAVELRY_TOKEN_URL,
+    RAVELRY_REDIRECT_URI: process.env.RAVELRY_REDIRECT_URI,
 
     BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
 

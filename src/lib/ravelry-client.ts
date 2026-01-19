@@ -8,28 +8,13 @@ import type {
   PatternCommentsResponse,
   ProjectResponse,
 } from "@/api/types";
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth/auth";
+import { getValidRavelryToken } from "./helpers";
 
 interface RavelryClientOptions {
   query?: string;
   page?: number;
   pageSize?: number;
 }
-const getAccessToken = async (): Promise<string | null> => {
-  try {
-    const tokens = await auth.api.getAccessToken({
-      body: { providerId: "ravelry" },
-      headers: await headers(),
-    });
-    if (!tokens) return null;
-
-    return tokens.accessToken;
-  } catch (error) {
-    console.error("Failed to get access token:", error);
-    return null;
-  }
-};
 
 const baseUrl = env.RAVELRY_URL;
 
@@ -37,7 +22,7 @@ async function fetchRavelry<T>(
   endpoint: string,
   queryParams?: Record<string, string>,
 ): Promise<T> {
-  const token = await getAccessToken();
+  const token = await getValidRavelryToken();
 
   if (!token) {
     const error = new Error("Uživatel není přihlášen k Ravelry.") as Error & {

@@ -1,11 +1,10 @@
-import type { Locale } from "@/i18n/config";
 import { setRequestLocale } from "next-intl/server";
 import { PageHeader } from "@/components/PageHeader";
 import { MySpaceContent } from "@/components/my-space/MySpaceContent";
 
 type Props = {
   children: React.ReactNode;
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 };
 
 export default async function MySpaceLayout({ children, params }: Props) {
