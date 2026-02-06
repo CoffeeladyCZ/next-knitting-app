@@ -3,9 +3,11 @@ import type { OAuth2UserInfo } from "@better-auth/core/oauth2";
 import { genericOAuth, username } from "better-auth/plugins";
 import { cookies } from "next/headers";
 import { getRavelryAccessToken, getRavelryUserInfo } from "../helpers";
+import { env } from "@/configs/env";
 
 export const auth = betterAuth({
-  baseURL: process.env.APP_BASE_URL as string,
+  baseURL: env.APP_BASE_URL,
+  secret: env.BETTER_AUTH_SECRET,
   emailAndPassword: {
     enabled: true,
   },
@@ -21,12 +23,12 @@ export const auth = betterAuth({
       config: [
         {
           providerId: "ravelry",
-          clientId: process.env.RAVELRY_CLIENT_ID as string,
-          clientSecret: process.env.RAVELRY_CLIENT_SECRET,
-          authorizationUrl: process.env.RAVELRY_AUTHORIZATION_URL as string,
+          clientId: env.RAVELRY_CLIENT_ID,
+          clientSecret: env.RAVELRY_CLIENT_SECRET,
+          authorizationUrl: env.RAVELRY_AUTHORIZATION_URL,
           scopes: ["offline"],
-          tokenUrl: process.env.RAVELRY_TOKEN_URL as string,
-          redirectURI: process.env.RAVELRY_REDIRECT_URI as string,
+          tokenUrl: env.RAVELRY_TOKEN_URL,
+          redirectURI: env.RAVELRY_REDIRECT_URI,
           getToken: async ({ code, redirectURI }) => {
             const data = await getRavelryAccessToken(code, redirectURI);
 
