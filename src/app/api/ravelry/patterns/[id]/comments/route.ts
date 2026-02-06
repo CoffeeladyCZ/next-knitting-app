@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getPatternComments } from "@/lib/ravelry-client";
+import { logger } from "@/lib/logger";
 
 export async function GET(
   request: NextRequest,
@@ -19,7 +20,10 @@ export async function GET(
     const data = await getPatternComments(id);
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Error fetching pattern comments:", error);
+    logger.error("Error fetching pattern comments", error, {
+      endpoint: "/api/ravelry/patterns/[id]/comments",
+      patternId: params.id,
+    });
     return NextResponse.json(
       { error: "Failed to fetch pattern comments" },
       { status: 500 },

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
+import { logger } from "@/lib/logger";
 
 const USERNAME_STORAGE_KEY = "ravelry_username";
 
@@ -36,7 +37,9 @@ export const useUsername = () => {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching username:", error);
+        logger.error("Error fetching username", error, {
+          hook: "useUsername",
+        });
         setIsLoading(false);
       });
   }, [initialUsername]);

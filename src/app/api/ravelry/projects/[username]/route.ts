@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getProjects } from "@/lib/ravelry-client";
+import { logger } from "@/lib/logger";
 
 export async function GET(
   request: NextRequest,
@@ -19,7 +20,10 @@ export async function GET(
     const data = await getProjects(username);
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Error fetching projects:", error);
+    logger.error("Error fetching projects", error, {
+      endpoint: "/api/ravelry/projects/[username]",
+      username: params.username,
+    });
 
     if (error && typeof error === "object" && "statusCode" in error) {
       const apiError = error as { statusCode: number; status?: string };

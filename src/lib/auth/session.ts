@@ -2,6 +2,7 @@ import type { Session, User } from "better-auth";
 
 import { headers } from "next/headers";
 import { auth } from "./auth";
+import { logger } from "@/lib/logger";
 
 type SessionType = {
   user: User | null;
@@ -18,7 +19,7 @@ export const getSession = async (): Promise<SessionType> => {
       session: session?.session ?? null,
     };
   } catch (error) {
-    console.error("Failed to get session:", error);
+    logger.error("Failed to get session", error);
     return { user: null, session: null };
   }
 };

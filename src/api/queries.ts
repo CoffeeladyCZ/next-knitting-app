@@ -6,6 +6,7 @@ import type {
   PatternCommentsResponse,
   ProjectResponse,
 } from "./types";
+import { logger } from "@/lib/logger";
 
 async function fetchFromApi<T>(
   endpoint: string,
@@ -45,7 +46,7 @@ async function fetchFromApi<T>(
     const data = await response.json();
     return data as T;
   } catch (error) {
-    console.error("Error calling API route:", (error as Error).message);
+    logger.error("Error calling API route", error, { endpoint, queryParams });
     throw error as Error;
   }
 }

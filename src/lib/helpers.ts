@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { ROUTES } from "@/lib/routes";
-import * as sentry from "@sentry/nextjs";
+import { logger } from "@/lib/logger";
 
 const refreshAccessToken = async (
   refreshToken: string,
@@ -11,7 +11,9 @@ const refreshAccessToken = async (
   const redirectUri = process.env.RAVELRY_REDIRECT_URI;
 
   if (!clientId || !clientSecret || !tokenUrl || !redirectUri) {
-    sentry.captureException(new Error("Missing environment variables"));
+    logger.error("Missing environment variables for token refresh", undefined, {
+      function: "refreshAccessToken",
+    });
     return null;
   }
 
@@ -31,10 +33,10 @@ const refreshAccessToken = async (
     });
 
     if (!response.ok) {
-      console.error("8 Error refreshing token status:", response.status);
-      sentry.captureException(
-        new Error(`Error refreshing token status: ${response.status}`),
-      );
+      logger.error("Error refreshing token", undefined, {
+        function: "refreshAccessToken",
+        status: response.status,
+      });
       return null;
     }
 
@@ -61,7 +63,9 @@ const refreshAccessToken = async (
     }
     return data.access_token ?? null;
   } catch (error) {
-    console.error("7 Fetch error:", error);
+    logger.error("Fetch error during token refresh", error, {
+      function: "refreshAccessToken",
+    });
     return null;
   }
 };
@@ -131,19 +135,19 @@ export const getRavelryUserInfo = async (
 
     if (!userResponse.ok) {
       const errorBody = await userResponse.text();
-      console.error("Failed to fetch Ravelry user info:", errorBody);
-      sentry.captureException(
-        new Error(`Failed to fetch Ravelry user info: ${errorBody}`),
-      );
+      logger.error("Failed to fetch Ravelry user info", undefined, {
+        function: "getRavelryUserInfo",
+        status: userResponse.status,
+        errorBody: errorBody.substring(0, 200),
+      });
       return null;
     }
 
     return userResponse.json();
   } catch (error) {
-    console.error("Error fetching Ravelry user info:", error);
-    sentry.captureException(
-      new Error(`Error fetching Ravelry user info: ${error}`),
-    );
+    logger.error("Error fetching Ravelry user info", error, {
+      function: "getRavelryUserInfo",
+    });
     return null;
   }
 };
