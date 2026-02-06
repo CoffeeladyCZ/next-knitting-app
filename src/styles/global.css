@@ -188,3 +188,24 @@ html[data-radix-scroll-lock] {
 .animate-slideRightAndFade {
   animation: slideRightAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+.emoji-constrained {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  text-rendering: optimizeLegibility;
+}
+
+.emoji-constrained img {
+  max-height: 1.2em !important;
+  max-width: 1.2em !important;
+  height: auto !important;
+  width: auto !important;
+  display: inline-block;
+  vertical-align: middle;
+  object-fit: contain;
+}
+
+.emoji-constrained * {
+  font-size: inherit;
+  max-width: 100%;
+}

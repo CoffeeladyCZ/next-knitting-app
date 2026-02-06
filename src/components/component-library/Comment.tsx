@@ -35,7 +35,9 @@ export const Comment = ({
         </p>
       </div>
       <div className="flex items-center basis-3/4">
-        <div className="text-sm text-text text-left">{parse(content)}</div>
+        <div className="text-sm text-text text-left emoji-constrained">
+          {parse(content)}
+        </div>
       </div>
       {children}
     </div>
