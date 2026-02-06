@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { logger } from "./logger";
 import * as Sentry from "@sentry/nextjs";
 
@@ -8,12 +8,23 @@ vi.mock("@sentry/nextjs", () => ({
 }));
 
 describe("Logger", () => {
+  const originalEnv = process.env.NODE_ENV;
+
   beforeEach(() => {
     vi.clearAllMocks();
+    // Set NODE_ENV for tests
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (process.env as any).NODE_ENV = "development";
     vi.spyOn(console, "error").mockImplementation(() => {});
     vi.spyOn(console, "warn").mockImplementation(() => {});
     vi.spyOn(console, "info").mockImplementation(() => {});
     vi.spyOn(console, "debug").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    // Restore original NODE_ENV
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (process.env as any).NODE_ENV = originalEnv;
   });
 
   it("logs error and sends to Sentry", () => {
@@ -22,10 +33,17 @@ describe("Logger", () => {
 
     expect(console.error).toHaveBeenCalled();
     expect(Sentry.captureException).toHaveBeenCalledWith(
-      expect.any(Error),
+      error,
       expect.objectContaining({
         contexts: expect.objectContaining({
-          custom: expect.objectContaining({ context: "test" }),
+          custom: expect.objectContaining({
+            context: "test",
+            errorMessage: "Test error",
+            errorName: "Error",
+          }),
+        }),
+        tags: expect.objectContaining({
+          logger: "true",
         }),
       })
     );
@@ -62,6 +80,16 @@ describe("Logger", () => {
     logger.error("Test error", "string error", { context: "test" });
 
     expect(console.error).toHaveBeenCalled();
-    expect(Sentry.captureException).toHaveBeenCalled();
+    expect(Sentry.captureException).toHaveBeenCalledWith(
+      expect.any(Error),
+      expect.objectContaining({
+        contexts: expect.objectContaining({
+          custom: expect.objectContaining({
+            context: "test",
+            error: "string error",
+          }),
+        }),
+      })
+    );
   });
 });

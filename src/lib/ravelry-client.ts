@@ -10,17 +10,19 @@ import type {
 } from "@/api/types";
 import { getValidRavelryToken } from "./helpers";
 
-interface RavelryClientOptions {
+export interface RavelryClientOptions {
   query?: string;
   page?: number;
   pageSize?: number;
 }
 
+type QueryParams = Record<string, string>;
+
 const baseUrl = env.RAVELRY_URL;
 
 async function fetchRavelry<T>(
   endpoint: string,
-  queryParams?: Record<string, string>
+  queryParams?: QueryParams
 ): Promise<T> {
   const token = await getValidRavelryToken();
 
@@ -64,7 +66,7 @@ export async function getPatterns(
   options: RavelryClientOptions = {}
 ): Promise<PatternResponse> {
   const { query, page = 1, pageSize = 9 } = options;
-  const queryParams: Record<string, string> = {
+  const queryParams: QueryParams = {
     page: page.toString(),
     page_size: pageSize.toString(),
   };

@@ -6,11 +6,15 @@ export type LogContext = {
   [key: string]: unknown;
 };
 
-const isDevelopment = process.env.NODE_ENV === "development";
-
-function log(level: LogLevel, message: string, context?: LogContext) {
+function log(
+  level: LogLevel,
+  message: string,
+  context?: LogContext,
+  error?: Error | unknown
+) {
   const timestamp = new Date().toISOString();
   const logMessage = `[${timestamp}] [${level.toUpperCase()}] ${message}`;
+  const isDevelopment = process.env.NODE_ENV === "development";
 
   if (isDevelopment) {
     switch (level) {
@@ -30,7 +34,9 @@ function log(level: LogLevel, message: string, context?: LogContext) {
   }
 
   if (level === "error") {
-    Sentry.captureException(new Error(message), {
+    const errorToCapture =
+      error instanceof Error ? error : new Error(message);
+    Sentry.captureException(errorToCapture, {
       contexts: {
         custom: context || {},
       },
@@ -63,7 +69,7 @@ export function loggerError(
       : { error: String(error) }),
   };
 
-  log("error", message, errorContext);
+  log("error", message, errorContext, error);
 }
 
 export function loggerWarn(message: string, context?: LogContext) {
