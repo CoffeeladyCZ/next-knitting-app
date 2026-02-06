@@ -61,7 +61,7 @@ export const Patterns = () => {
   const { data, isLoading, isError, error } = useGetPatterns(
     searchQuery,
     page,
-    pageSize,
+    pageSize
   );
 
   useEffect(() => {

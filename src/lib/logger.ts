@@ -50,7 +50,7 @@ function log(level: LogLevel, message: string, context?: LogContext) {
 export function loggerError(
   message: string,
   error?: Error | unknown,
-  context?: LogContext,
+  context?: LogContext
 ) {
   const errorContext: LogContext = {
     ...context,

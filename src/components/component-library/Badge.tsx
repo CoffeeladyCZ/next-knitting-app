@@ -28,7 +28,7 @@ const badgeVariants = cva(
       variant: "primary",
       size: "md",
     },
-  },
+  }
 );
 
 const Badge = ({

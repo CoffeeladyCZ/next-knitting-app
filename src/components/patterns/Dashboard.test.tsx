@@ -111,7 +111,7 @@ const renderWithProviders = (component: ReactElement) => {
       <NextIntlClientProvider locale="en" messages={messages}>
         {component}
       </NextIntlClientProvider>
-    </QueryClientProvider>,
+    </QueryClientProvider>
   );
 };
 
@@ -122,7 +122,7 @@ describe("Patterns Dashboard", () => {
       "fetch",
       vi.fn().mockResolvedValue({
         json: async () => ({ username: "" }),
-      }) as unknown as typeof fetch,
+      }) as unknown as typeof fetch
     );
   });
 
@@ -225,7 +225,7 @@ describe("Patterns Dashboard", () => {
     });
 
     const searchInput = screen.getByPlaceholderText(
-      "Search patterns...",
+      "Search patterns..."
     ) as HTMLInputElement;
 
     await user.type(searchInput, "sweater");

@@ -49,14 +49,14 @@ export const auth = betterAuth({
               accessToken: data.access_token,
               refreshToken: data.refresh_token,
               accessTokenExpiresAt: new Date(
-                Date.now() + (data.expires_in || 3600) * 1000,
+                Date.now() + (data.expires_in || 3600) * 1000
               ),
               scopes: data.scope?.split(" ") ?? [],
               raw: data,
             };
           },
           getUserInfo: async (
-            tokens: OAuth2Tokens,
+            tokens: OAuth2Tokens
           ): Promise<OAuth2UserInfo | null> => {
             const accessToken = tokens.accessToken;
             if (!accessToken) {

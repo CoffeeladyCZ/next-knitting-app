@@ -3,7 +3,7 @@ import { ROUTES } from "@/lib/routes";
 import { logger } from "@/lib/logger";
 
 const refreshAccessToken = async (
-  refreshToken: string,
+  refreshToken: string
 ): Promise<string | null> => {
   const clientId = process.env.RAVELRY_CLIENT_ID;
   const clientSecret = process.env.RAVELRY_CLIENT_SECRET;
@@ -88,13 +88,13 @@ export const getValidRavelryToken = async (): Promise<string | null> => {
 
 export const getRavelryAccessToken = async (
   code: string,
-  redirectURI: string,
+  redirectURI: string
 ) => {
   const clientId = process.env.RAVELRY_CLIENT_ID as string;
   const clientSecret = process.env.RAVELRY_CLIENT_SECRET as string;
 
   const clientCredentials = Buffer.from(`${clientId}:${clientSecret}`).toString(
-    "base64",
+    "base64"
   );
 
   const response = await fetch(process.env.RAVELRY_TOKEN_URL as string, {
@@ -113,7 +113,7 @@ export const getRavelryAccessToken = async (
   if (!response.ok) {
     const errorBody = await response.text();
     throw new Error(
-      `Failed to get access token: ${response.status}. ${errorBody}`,
+      `Failed to get access token: ${response.status}. ${errorBody}`
     );
   }
 
@@ -121,7 +121,7 @@ export const getRavelryAccessToken = async (
 };
 
 export const getRavelryUserInfo = async (
-  accessToken: string,
+  accessToken: string
 ): Promise<{ user: { username?: string; photo_url?: string } } | null> => {
   try {
     const userResponse = await fetch(
@@ -130,7 +130,7 @@ export const getRavelryUserInfo = async (
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      },
+      }
     );
 
     if (!userResponse.ok) {

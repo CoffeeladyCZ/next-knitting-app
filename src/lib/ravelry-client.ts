@@ -20,7 +20,7 @@ const baseUrl = env.RAVELRY_URL;
 
 async function fetchRavelry<T>(
   endpoint: string,
-  queryParams?: Record<string, string>,
+  queryParams?: Record<string, string>
 ): Promise<T> {
   const token = await getValidRavelryToken();
 
@@ -51,7 +51,7 @@ async function fetchRavelry<T>(
   if (!response.ok) {
     const errorBody = await response.text();
     const error = new Error(
-      `Ravelry API error: ${response.status}. ${errorBody.substring(0, 100)}`,
+      `Ravelry API error: ${response.status}. ${errorBody.substring(0, 100)}`
     ) as Error & { statusCode?: number };
     error.statusCode = response.status;
     throw error;
@@ -61,7 +61,7 @@ async function fetchRavelry<T>(
 }
 
 export async function getPatterns(
-  options: RavelryClientOptions = {},
+  options: RavelryClientOptions = {}
 ): Promise<PatternResponse> {
   const { query, page = 1, pageSize = 9 } = options;
   const queryParams: Record<string, string> = {
@@ -77,24 +77,24 @@ export async function getPatterns(
 }
 
 export async function getPatternDetail(
-  id: number,
+  id: number
 ): Promise<PatternDetailResponse> {
   return fetchRavelry<PatternDetailResponse>(
-    `${API_ROUTES.PATTERNS_DETAIL}/${id}.json`,
+    `${API_ROUTES.PATTERNS_DETAIL}/${id}.json`
   );
 }
 
 export async function getPatternComments(
-  id: number,
+  id: number
 ): Promise<PatternCommentsResponse> {
   return fetchRavelry<PatternCommentsResponse>(
-    `${API_ROUTES.PATTERNS_COMMENTS}/${id}/comments.json`,
+    `${API_ROUTES.PATTERNS_COMMENTS}/${id}/comments.json`
   );
 }
 
 export async function getPatternCategories(): Promise<PatternCategoriesResponse> {
   return fetchRavelry<PatternCategoriesResponse>(
-    API_ROUTES.PATTERNS_CATEGORIES,
+    API_ROUTES.PATTERNS_CATEGORIES
   );
 }
 

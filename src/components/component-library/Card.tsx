@@ -23,7 +23,7 @@ function CardRoot({
         "flex flex-col items-center p-4 cursor-pointer transition-colors duration-300",
         hoverClass ?? "hover:bg-[rgba(255,187,171,0.7)]",
         cardVariantClasses[variant],
-        className,
+        className
       )}
       {...props}
     />

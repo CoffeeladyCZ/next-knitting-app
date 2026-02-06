@@ -27,7 +27,7 @@ describe("Logger", () => {
         contexts: expect.objectContaining({
           custom: expect.objectContaining({ context: "test" }),
         }),
-      }),
+      })
     );
   });
 
@@ -40,7 +40,7 @@ describe("Logger", () => {
         message: "Test warning",
         level: "warning",
         data: { context: "test" },
-      }),
+      })
     );
   });
 
