@@ -4,6 +4,7 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Providers } from "@/components/Providers";
+import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { Analytics } from "@/app/[locale]/Analytics";
 import "@/styles/global.css";
 
@@ -31,7 +32,9 @@ export default async function LocaleLayout({ children, params }: Props) {
       <body>
         <Analytics />
         <NextIntlClientProvider messages={messages} locale={locale}>
-          <Providers>{children}</Providers>
+          <ErrorBoundaryWrapper>
+            <Providers>{children}</Providers>
+          </ErrorBoundaryWrapper>
         </NextIntlClientProvider>
       </body>
     </html>
