@@ -192,13 +192,17 @@ export type PatternAttribute = {
 
 export type Pack = {
   yarn_id?: number;
-  [key: string]: unknown;
+  yarn_name?: string;
+  colorway?: string;
+  grams?: number;
+  yardage?: number;
+  [key: string]: string | number | boolean | undefined;
 };
 
 export type Printing = {
   id?: number;
   name?: string;
-  [key: string]: unknown;
+  [key: string]: string | number | boolean | undefined;
 };
 
 export type Craft = {
@@ -287,7 +291,7 @@ export type Project = {
   gauge?: number | null;
   gauge_pattern?: string | null;
   gauge_repeats?: number | null;
-  links: Record<string, unknown>;
+  links: Record<string, string | number | boolean | null | undefined>;
   made_for?: string | null;
   made_for_user_id?: number | null;
   pattern_id?: number | null;

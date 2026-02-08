@@ -1,0 +1,17 @@
+node_modules
+.next
+out
+build
+dist
+coverage
+.yarn
+.pnp.*
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
+*.log
+.DS_Store
+.env*.local
+.vercel
+storybook-static
+.cache

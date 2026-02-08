@@ -6,10 +6,11 @@ import type {
   PatternCommentsResponse,
   ProjectResponse,
 } from "./types";
+import { logger } from "@/lib/logger";
 
 async function fetchFromApi<T>(
   endpoint: string,
-  queryParams?: Record<string, string>,
+  queryParams?: Record<string, string>
 ): Promise<T> {
   let url = endpoint;
 
@@ -38,14 +39,14 @@ async function fetchFromApi<T>(
     if (!response.ok) {
       const errorBody = await response.text();
       throw new Error(
-        `HTTP error! Status: ${response.status}. Message: ${errorBody.substring(0, 100)}...`,
+        `HTTP error! Status: ${response.status}. Message: ${errorBody.substring(0, 100)}...`
       );
     }
 
     const data = await response.json();
     return data as T;
   } catch (error) {
-    console.error("Error calling API route:", (error as Error).message);
+    logger.error("Error calling API route", error, { endpoint, queryParams });
     throw error as Error;
   }
 }
@@ -62,7 +63,7 @@ export const getYarns = async (): Promise<YarnResponse> => {
 export const getPatterns = async (
   query?: string,
   page: number = 1,
-  pageSize: number = 9,
+  pageSize: number = 9
 ): Promise<PatternResponse> => {
   const queryParams: Record<string, string> = {
     page: page.toString(),
@@ -75,21 +76,21 @@ export const getPatterns = async (
 };
 
 export const getPatternDetail = async (
-  id: number,
+  id: number
 ): Promise<PatternDetailResponse> => {
   return fetchFromApi<PatternDetailResponse>(`/api/ravelry/patterns/${id}`);
 };
 
 export const getPatternComments = async (
-  id: number,
+  id: number
 ): Promise<PatternCommentsResponse> => {
   return fetchFromApi<PatternCommentsResponse>(
-    `/api/ravelry/patterns/${id}/comments`,
+    `/api/ravelry/patterns/${id}/comments`
   );
 };
 
 export const getProjects = async (
-  username: string,
+  username: string
 ): Promise<ProjectResponse> => {
   return fetchFromApi<ProjectResponse>(`/api/ravelry/projects/${username}`);
 };

@@ -58,5 +58,11 @@
   "errorMessages": {
     "unauthorized": "Neautorizováno",
     "unauthorizedMessage": "Uživatel není přihlášen k Ravelry."
+  },
+  "errorBoundary": {
+    "title": "Něco se pokazilo",
+    "message": "Omlouváme se, ale došlo k neočekávané chybě. Zkuste prosím obnovit stránku.",
+    "details": "Detaily chyby",
+    "reload": "Obnovit stránku"
   }
 }

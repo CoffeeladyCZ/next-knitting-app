@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth/session";
+import { logger } from "@/lib/logger";
 
 export async function GET() {
   try {
@@ -8,7 +9,7 @@ export async function GET() {
 
     return NextResponse.json({ username });
   } catch (error) {
-    console.error("Error getting user:", error);
+    logger.error("Error getting user", error, { endpoint: "/api/user" });
     return NextResponse.json({ username: "" }, { status: 200 });
   }
 }

@@ -59,5 +59,11 @@
   "errorMessages": {
     "unauthorized": "Unauthorized",
     "unauthorizedMessage": "User is not logged in to Ravelry."
+  },
+  "errorBoundary": {
+    "title": "Something went wrong",
+    "message": "We're sorry, but something unexpected happened. Please try reloading the page.",
+    "details": "Error details",
+    "reload": "Reload page"
   }
 }

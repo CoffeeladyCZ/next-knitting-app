@@ -31,7 +31,7 @@ const DropdownMenuSubTrigger = React.forwardRef<
       "data-disabled:pointer-events-none data-disabled:opacity-50",
       "data-highlighted:bg-primary/10 data-highlighted:text-primary",
       "data-[state=open]:bg-primary/10",
-      className,
+      className
     )}
     {...props}
   />
@@ -49,7 +49,7 @@ const DropdownMenuSubContent = React.forwardRef<
       "dropdown-menu-content z-50 min-w-32 overflow-hidden rounded-md border border-primary/20 bg-surface p-1 text-text",
       "shadow-[0px_10px_38px_-10px_rgba(22,23,24,0.35),0px_10px_20px_-15px_rgba(22,23,24,0.2)]",
       "will-change-[opacity,transform]",
-      className,
+      className
     )}
     {...props}
   />
@@ -69,7 +69,7 @@ const DropdownMenuContent = React.forwardRef<
       className={cn(
         "min-w-[220px] rounded-md bg-white p-[5px] shadow-[0px_10px_38px_-10px_rgba(22,23,24,0.35),0px_10px_20px_-15px_rgba(22,23,24,0.2)] will-change-[opacity,transform]",
         "data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade data-[side=right]:animate-slideLeftAndFade data-[side=top]:animate-slideDownAndFade",
-        className,
+        className
       )}
       {...props}
     />
@@ -90,7 +90,7 @@ const DropdownMenuItem = React.forwardRef<
       "data-disabled:pointer-events-none data-disabled:opacity-50",
       "data-highlighted:bg-primary/10 data-highlighted:text-primary",
       inset && "pl-8",
-      className,
+      className
     )}
     {...props}
   />
@@ -108,7 +108,7 @@ const DropdownMenuLabel = React.forwardRef<
     className={cn(
       "px-2 py-1.5 text-sm font-semibold text-text",
       inset && "pl-8",
-      className,
+      className
     )}
     {...props}
   />
