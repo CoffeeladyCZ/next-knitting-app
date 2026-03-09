@@ -1,0 +1,67 @@
+---
+name: coding-style-next-react
+description: React, Next.js, and TypeScript coding conventions for this project, extending the Applifting frontend playbook.
+---
+
+# Coding style – React, Next.js & TypeScript
+
+This file **extends** the global Applifting frontend playbook rules with concrete defaults for this project.
+
+## Components & files
+
+- Use **function components with hooks** only; no class components.
+- Default to **server components** in the `app` directory; add `"use client"` only when the component:
+  - uses state or effects (`useState`, `useEffect`, etc.),
+  - uses browser-only APIs (e.g. `window`, `document`),
+  - needs client-only libraries (e.g. React Query hooks, `useAuth`).
+- Name files and exports consistently:
+  - Component files are `PascalCase.tsx` and default-export or named-export a `PascalCase` component (e.g. `PatternCard.tsx` → `PatternCard`).
+  - Hooks start with `use` (e.g. `useAuth`, `usePreventLayoutShift`) and live in `src/hooks` when reusable.
+  - Tests are colocated with the unit under test when possible (e.g. `Dashboard.tsx` + `Dashboard.test.tsx`).
+
+## TypeScript
+
+- Avoid `any`. Prefer:
+  - specific interfaces/types that reflect API responses (often from `src/api/types` or `src/schema`),
+  - `unknown` plus refinement when you truly do not know the type upfront.
+- When defining props:
+  - use explicit `type` or `interface` declarations (e.g. `type Props = { ... }`),
+  - export props types if they are reused.
+- Keep type imports from:
+  - `src/api/types` for API-related data,
+  - `src/schema` when zod schemas define canonical shapes.
+
+## Data fetching & side effects
+
+- For client-side data fetching, use **React Query** hooks from `src/api` (e.g. `useGetPatterns`) instead of ad-hoc `fetch` in components.
+- For server components, use `fetch` or server-side helpers in `lib` as appropriate, keeping side effects close to the boundary.
+- Keep side effects and imperative logic inside:
+  - hooks (e.g. `useAuth` wrapping `authClient`), or
+  - small, focused components where needed.
+- Auth flows should follow the pattern in `useAuth`:
+  - wrap `authClient` methods,
+  - encapsulate router refreshes, query invalidations, and callbacks in the hook, not scattered across components.
+
+## Routing & i18n
+
+- Use the locale-aware `useRouter` and `Link` from `@/i18n/navigation` in UI code instead of importing directly from `next/navigation` or `next/link` when locale handling matters.
+- Use `next-intl` for translations:
+  - `useTranslations` in components and hooks when you need runtime strings,
+  - message JSON files under `src/locales/<locale>/common.json` (or another namespace) for text.
+- Prefer descriptive translation keys (e.g. `patterns.title`, `patterns.description`) and group them logically.
+
+## Component design
+
+- Favour **small, focused components**:
+  - If a component grows large or has multiple responsibilities, split it into subcomponents or hooks.
+  - Keep presentational and data-fetching concerns separate where it improves clarity: a container component using React Query + smaller presentational components from `component-library` or feature folders.
+- Reuse primitives from `src/components/component-library` instead of redefining basic building blocks (buttons, inputs, cards, badges, dropdowns, icons).
+- Keep feature-specific styling and layout inside feature folders (e.g. `components/patterns`, `components/my-space`) and reuse global styles from `styles/global.css` and `app/globals.css` where appropriate.
+
+## Testing expectations (high-level)
+
+- When adding or editing UI, prefer **behaviour-driven tests** using Vitest + Testing Library:
+  - assert on visible text, roles, and user interactions (like in `Dashboard.test.tsx`),
+  - avoid testing implementation details such as internal state except when strictly necessary.
+- Mock network or data hooks (e.g. `useGetPatterns`) rather than mocking deep internals.
+

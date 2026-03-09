@@ -1,0 +1,12 @@
+---
+name: global-style-guide
+description: Base rules for this repository. Default to the Applifting frontend playbook; project-specific overrides live in other .mdc files in this folder.
+---
+
+# Overview
+
+This project follows the Applifting frontend playbook as the **primary source of truth** for frontend best practices:
+
+- https://applifting.github.io/frontend-playbook/
+
+All other rule files in `.cursor/rules` (for example `architecture.mdc`, `coding-style-next-react.mdc`, `env-and-config.mdc`, `testing.mdc`) **extend these rules** and may add project-specific details. They should only override the playbook when explicitly stated.
