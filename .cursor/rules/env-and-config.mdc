@@ -1,0 +1,58 @@
+---
+name: env-and-config
+description: Rules for environment variables and configuration using @t3-oss/env-nextjs in this project.
+---
+
+# Environment variables & configuration
+
+This file **extends** the global style guide with conventions for managing environment variables and configuration via `@t3-oss/env-nextjs`.
+
+## Single source of truth – `src/configs/env.ts`
+
+- All environment variables used by the app must be declared and validated in:
+  - `src/configs/env.ts` using `createEnv` and `zod`.
+- Do **not** access `process.env` directly in application code (components, hooks, lib, etc.).
+  - Always import from `env`:
+    - `import { env } from "@/configs/env";`
+
+## Adding new environment variables
+
+When you need a new environment variable:
+
+1. **Choose the right section** in `createEnv`:
+   - `server`: values only used on the server (never exposed to the browser).
+   - `client`: values that must be available on the client; their keys must start with `NEXT_PUBLIC_`.
+2. **Add a schema entry** using `z`:
+   - For strings: `z.string()`, optionally `.url()`, `.email()`, `.optional()`, etc.
+   - For enums: `z.enum([...])`.
+3. **Wire into `runtimeEnv`**:
+   - Add the corresponding `process.env.MY_VAR` entry under `runtimeEnv`.
+4. **Reference via `env`** in code:
+   - `env.MY_SERVER_VAR` on the server.
+   - `env.NEXT_PUBLIC_MY_CLIENT_VAR` in client code.
+
+## Server vs client variables
+
+- **Server-only**:
+  - Defined under `server` in `env.ts`.
+  - Must not be referenced in client components or any code that runs in the browser.
+  - Examples: `APP_BASE_URL`, `RAVELRY_CLIENT_SECRET`, `BETTER_AUTH_SECRET`.
+- **Client-exposed**:
+  - Defined under `client` and start with `NEXT_PUBLIC_`.
+  - Safe to use in client components and hooks.
+  - Examples in this project: `NEXT_PUBLIC_GA4_MEASUREMENT_ID`, `NEXT_PUBLIC_SENTRY_DSN`.
+
+## Environment names and flags
+
+- Use `ENV_NAME` to differentiate behaviours between `local`, `staging`, and `production` rather than hard-coding checks on `NODE_ENV`.
+- Use the `skipValidation` flag (`SKIP_ENV_VALIDATION`) only when necessary, e.g. in CI steps where full validation is impractical.
+  - Application code should assume that `env` is already validated by `createEnv`.
+
+## Usage guidelines
+
+- Prefer injecting configuration through `env` rather than hard-coded URLs or secrets.
+- When adding new integrations (e.g. another external API):
+  - put base URLs, client IDs, secrets, and callback URLs into `env.ts`,
+  - keep per-environment values in your `.env.*` files or deployment config.
+- Keep `env.ts` free of React imports and UI logic – it is purely configuration.
+

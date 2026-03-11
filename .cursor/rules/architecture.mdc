@@ -1,0 +1,115 @@
+---
+name: architecture
+description: Project structure, responsibilities of main folders, and allowed import directions for the knitting app.
+---
+
+# Architecture & folder responsibilities
+
+This file **extends** the Applifting frontend playbook and `global-style-guide` rule with project-specific architecture conventions for this Next.js App Router project.
+
+## Struktura projektu (přehledový graf)
+
+Struktura hlavních složek:
+
+```text
+src
+├─ app
+│  └─ [locale]/...
+├─ components
+│  ├─ component-library
+│  ├─ patterns
+│  └─ my-space
+├─ api
+├─ lib
+├─ hooks
+├─ i18n
+├─ configs
+├─ schema
+└─ locales
+   ├─ en
+   └─ cs
+```
+
+## Main folders
+
+- `src/app`
+  - Defines routing, layouts, and top-level pages (including `[locale]` segments).
+  - Should contain minimal UI logic; delegate complex UI to components in `src/components`.
+  - Server components by default; use client components only when necessary.
+
+- `src/components`
+  - Reusable UI components and page sections.
+  - `src/components/component-library` contains low-level, generic UI primitives (buttons, inputs, cards, icons, etc.) that should be free of domain-specific logic.
+  - Feature-specific components (e.g. patterns dashboard, my-space) live in dedicated subfolders such as `components/patterns` or `components/my-space`.
+
+- `src/api`
+  - Data-access layer for frontend code: query hooks, request builders, client-side types, and constants related to remote APIs.
+  - Prefer colocating hooks and helpers here (e.g. `useGetPatterns`, `queries.ts`, `types.ts`, `constants.ts`).
+
+- `src/lib`
+  - Cross-cutting utilities and domain logic that do not depend on React.
+  - Includes routing helpers (`routes.ts`), Ravelry client utilities (`ravelry-client.ts`), auth helpers (`auth/**`), and generic helpers (`helpers.ts`, `utils.ts`).
+  - Safe to import from `lib` anywhere in the app, but `lib` must not import from React components.
+
+- `src/hooks`
+  - Reusable React hooks (e.g. `useAuth`, `useUsername`, `usePreventLayoutShift`) that encapsulate behaviour and can be shared across components.
+  - Hooks may depend on `lib`, `api`, and `i18n`, but should not import from specific page files under `src/app`.
+
+- `src/i18n`
+  - Internationalisation setup and helpers (`config`, `navigation`, `routing`, `request`, `proxy`).
+  - Routing-aware helpers (e.g. locale-aware `useRouter`, `Link`) live here and are used by components and pages.
+
+- `src/configs`
+  - Application-level configuration such as environment handling (`env.ts`) and future config modules.
+  - No React imports; these modules should remain framework-agnostic where possible.
+
+- `src/schema`
+  - Zod or other schema definitions (e.g. `patternSchema.ts`) for validating and transforming data.
+
+- `src/locales`
+  - Translation message JSON files grouped by locale (e.g. `locales/en/common.json`, `locales/cs/common.json`).
+
+## Allowed import directions
+
+To keep dependencies manageable and avoid circular imports, follow these rules:
+
+- `src/app` (pages/layouts)
+  - May import from: `components`, `hooks`, `api`, `lib`, `i18n`, `configs`, `schema`, `locales`.
+  - Must not be imported by any other folder (no `app` imports from components or hooks).
+
+- `src/components`
+  - May import from: `hooks`, `api`, `lib`, `i18n`, `schema`, `configs` (for typed values), and translation messages via `next-intl`.
+  - Must not import from: `src/app`.
+  - `component-library` should avoid importing feature-specific modules (e.g. no direct imports from `patterns` or `my-space`).
+
+- `src/hooks`
+  - May import from: `lib`, `api`, `i18n`, `schema`, `configs`.
+  - Should not import from: `src/app` or concrete UI components in `src/components` (keep hooks reusable and UI-agnostic).
+
+- `src/api`
+  - May import from: `lib`, `schema`, `configs`.
+  - Must not import from: `components`, `hooks`, or `src/app`.
+
+- `src/lib`
+  - May import from: other `lib` modules, `configs`, `schema`.
+  - Must not import from: `components`, `hooks`, `src/app`.
+
+- `src/i18n`
+  - May import from: `configs` and Next.js / `next-intl` packages.
+  - Must not import from: `components`, `hooks`, `src/app`.
+
+## Where to put new code
+
+When adding new functionality:
+
+- New **page route or layout** → place under `src/app/[locale]/...` or the appropriate route segment.
+- New **reusable UI primitive** (button, input, badge, etc.) → `src/components/component-library`.
+- New **feature-specific component** (e.g. pattern list, project card, my-space layout piece) → a relevant feature folder under `src/components` (e.g. `components/patterns`, `components/my-space`).
+- New **data-fetching hook or API wrapper** → `src/api` (query hooks in `hooks.ts` or similar, types in `types.ts`, endpoints in `constants.ts`).
+- New **domain or integration helper** (e.g. Ravelry utilities, auth helpers) → `src/lib`, optionally combined with `src/api`.
+- New **reusable behavioural hook** (e.g. UI behaviour, routing behaviour) → `src/hooks`.
+- New **schema or validation logic** → `src/schema`.
+- New **translation strings** → `src/locales/<locale>/common.json` (or another appropriate namespace file).
+
+When in doubt, favour **more generic folders** (`lib`, `hooks`, `component-library`) over feature-specific placement, as long as you are not introducing incorrect dependencies against the rules above.
+
