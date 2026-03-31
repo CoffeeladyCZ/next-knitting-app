@@ -24,7 +24,7 @@ export const useAuth = () => {
     password: string,
     name: string,
     callbackURL: string = ROUTES.home,
-    username: string,
+    username: string
   ) => {
     await authClient.signUp.email(
       {
@@ -39,7 +39,7 @@ export const useAuth = () => {
           router.refresh();
           queryClient.clear();
         },
-      },
+      }
     );
   };
 

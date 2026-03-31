@@ -12,7 +12,7 @@ import {
 export const useGetPatterns = (
   query?: string,
   page: number = 1,
-  pageSize: number = 9,
+  pageSize: number = 9
 ) =>
   useQuery({
     queryFn: () => getPatterns(query, page, pageSize),

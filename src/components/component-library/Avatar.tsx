@@ -9,7 +9,7 @@ function AvatarRoot({
     <AvatarPrimitive.Root
       className={cn(
         "inline-flex size-[45px] select-none items-center justify-center overflow-hidden bg-blackA1 align-middle",
-        className,
+        className
       )}
       {...props}
     />
@@ -38,7 +38,7 @@ function AvatarFallback({
       data-slot="avatar-fallback"
       className={cn(
         "flex size-full items-center justify-center rounded-full bg-muted",
-        className,
+        className
       )}
       {...props}
     />

@@ -21,6 +21,7 @@ import type { Pattern } from "@/api/types";
 import { useRouter } from "@/i18n/navigation";
 import { PageHeader } from "@/components/PageHeader";
 import { setUsernameInStorage } from "@/hooks/useUsername";
+import { logger } from "@/lib/logger";
 
 export const Patterns = () => {
   const [searchQuery, setSearchQuery] = useState<string | undefined>(undefined);
@@ -50,7 +51,9 @@ export const Patterns = () => {
         }
       })
       .catch((error) => {
-        console.error("Error fetching username for storage:", error);
+        logger.error("Error fetching username for storage", error, {
+          component: "Dashboard",
+        });
       });
   }, []);
 
@@ -58,7 +61,7 @@ export const Patterns = () => {
   const { data, isLoading, isError, error } = useGetPatterns(
     searchQuery,
     page,
-    pageSize,
+    pageSize
   );
 
   useEffect(() => {

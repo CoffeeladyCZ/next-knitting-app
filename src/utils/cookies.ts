@@ -12,7 +12,7 @@ export const getCookie = async (name: string) => {
 export const setCookie = async (
   name: string,
   value: string,
-  options?: Partial<ResponseCookie>,
+  options?: Partial<ResponseCookie>
 ) => {
   const cookieStore = await cookies();
   cookieStore.set(name, value, options);

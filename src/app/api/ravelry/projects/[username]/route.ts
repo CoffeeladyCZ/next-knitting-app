@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getProjects } from "@/lib/ravelry-client";
+import { logger } from "@/lib/logger";
 
 export async function GET(
   request: NextRequest,
-  props: { params: Promise<{ username: string }> },
+  props: { params: Promise<{ username: string }> }
 ) {
   const params = await props.params;
   try {
@@ -12,20 +13,23 @@ export async function GET(
     if (!username) {
       return NextResponse.json(
         { error: "Username is required" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
     const data = await getProjects(username);
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Error fetching projects:", error);
+    logger.error("Error fetching projects", error, {
+      endpoint: "/api/ravelry/projects/[username]",
+      username: params.username,
+    });
 
     if (error && typeof error === "object" && "statusCode" in error) {
       const apiError = error as { statusCode: number; status?: string };
       return NextResponse.json(
         { error: "Unauthorized" },
-        { status: apiError.statusCode || 401 },
+        { status: apiError.statusCode || 401 }
       );
     }
 
@@ -35,7 +39,7 @@ export async function GET(
 
     return NextResponse.json(
       { error: "Failed to fetch projects" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
